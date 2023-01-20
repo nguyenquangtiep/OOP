@@ -15,7 +15,7 @@ import entities.Sender;
 import entities.Transport;
 
 public class DatabaseConnection {
-
+	
 	private String url = "jdbc:mysql://localhost:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection = null;
 

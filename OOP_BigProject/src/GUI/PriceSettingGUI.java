@@ -38,7 +38,7 @@ public class PriceSettingGUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("Vận chuyển đường bộ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblNewLabel_1 = new JLabel("Vận chuyển đường bộ");
+		JLabel lblNewLabel_1 = new JLabel("Vận chuyển đường hàng không");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblNewLabel_2 = new JLabel("Chi phí trên 1 km khoảng cách");

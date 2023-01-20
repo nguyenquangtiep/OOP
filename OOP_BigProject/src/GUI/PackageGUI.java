@@ -28,7 +28,7 @@ public class PackageGUI extends JPanel {
 		         "Ngày",
 		         "Tổng số đơn hàng",
 		         null,
-		         PlotOrientation.VERTICAL,
+		         PlotOrientation.HORIZONTAL,
 		         true, true, false);
 		ChartPanel chartPanel = new ChartPanel(barChart);
 		chartPanel.setZoomInFactor(1.0);
@@ -49,32 +49,33 @@ public class PackageGUI extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(52)
-					.addComponent(fromDateLbl, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addGap(95)
+					.addComponent(fromDateLbl, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(fromDatePicker, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-					.addGap(68)
-					.addComponent(toDateLbl, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+					.addComponent(fromDatePicker, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+					.addGap(75)
+					.addComponent(toDateLbl, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(toDatePicker, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-					.addComponent(confirmBtn, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-					.addGap(37))
+					.addComponent(toDatePicker, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+					.addGap(114)
+					.addComponent(confirmBtn, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addGap(51))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 943, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
+					.addGap(12))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(21)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(confirmBtn, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(toDateLbl, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(fromDatePicker, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(fromDateLbl, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(toDatePicker, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addComponent(confirmBtn, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+							.addComponent(toDatePicker, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+							.addComponent(toDateLbl, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+						.addComponent(fromDatePicker, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+						.addComponent(fromDateLbl, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
 					.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
 					.addContainerGap())
