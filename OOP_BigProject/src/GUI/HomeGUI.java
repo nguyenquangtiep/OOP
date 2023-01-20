@@ -24,7 +24,7 @@ public class HomeGUI extends JPanel {
 		setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		
+		add(scrollPane, "cell 0 0,grow");
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -34,7 +34,7 @@ public class HomeGUI extends JPanel {
 		));
 		scrollPane.setViewportView(table);
 
-		add(scrollPane, "cell 0 0,grow");
+		
 	}
 
 	public Object[][] dataTest()
@@ -42,20 +42,18 @@ public class HomeGUI extends JPanel {
 		
 		List<Transport> transports = databaseConnection.testSelect();
 		int i = 0;
-		Object[][] objects = new Object[transports.size()][];
-		Object[] object = new Object[9];
+		Object[][] objects = new Object[transports.size()][9];
 		for (Transport transport : transports)
 		{
-			object[0] = i+1;
-			object[1] = transport.getPackageTransport().getId();
-			object[2] = transport.getPackageTransport().getDescription();
-			object[3] = transport.getSender().getName();
-			object[4] = transport.getReceiver().getName();
-			object[5] = transport.getReceiver().getAddress().getLocation();
-			object[6] = transport.getDistance();
-			object[7] = transport.getTransportType();
-			object[8] = transport.getFee();
-			objects[i++] = object;
+			objects[i][0] = i+1;
+			objects[i][1] = transport.getPackageTransport().getId();
+			objects[i][2] = transport.getPackageTransport().getDescription();
+			objects[i][3] = transport.getSender().getName();
+			objects[i][4] = transport.getReceiver().getName();
+			objects[i][5] = transport.getReceiver().getAddress().getLocation();
+			objects[i][6] = transport.getDistance();
+			objects[i][7] = transport.getTransportType();
+			objects[i++][8] = transport.getFee();
 		}
 
 		return objects;
