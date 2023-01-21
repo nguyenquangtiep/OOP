@@ -37,10 +37,10 @@ public class HomeGUI extends JPanel {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object[][] dataTest()
 	{
-		
-		List<Transport> transports = databaseConnection.testSelect();
+		List<Transport> transports = (List<Transport>)databaseConnection.testSelect()[0][0];
 		int i = 0;
 		Object[][] objects = new Object[transports.size()][9];
 		for (Transport transport : transports)
