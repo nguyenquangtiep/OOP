@@ -2,7 +2,6 @@ package connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,8 +14,8 @@ import entities.Sender;
 import entities.Transport;
 
 public class DatabaseConnection {
-	
-	private String url = "jdbc:mysql://localhost:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
+
+	private String url = "jdbc:mysql://127.0.0.1:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection = null;
 
     public DatabaseConnection()
@@ -32,8 +31,12 @@ public class DatabaseConnection {
         }
     }
 
-    public List<Transport> testSelect()
+    public Object[][] testSelect()
     {
+        Object[][] objects = new Object[1][3];
+        List<Sender> senders = new ArrayList<>();
+        List<Receiver> receivers = new ArrayList<>();
+        int flag=0;
         List<Transport> transports = new ArrayList<>();
         Transport transport;
         String s[] = new String[6];
@@ -46,8 +49,9 @@ public class DatabaseConnection {
         {
             Statement stm = connection.createStatement();
             ResultSet resultSet = stm.executeQuery(
-            "SELECT transport.*,sender.name AS senderName, senderAddress.id AS fromId, senderAddress.location AS sendFrom, "
-            + "receiver.name AS receiverName, receiverAddress.id AS toId, receiverAddress.location AS sendTo, package.description "
+            "SELECT transport.*,sender.name AS senderName, sender.phoneNumber AS senderPhoneNumber, senderAddress.id AS fromId"
+            + ", senderAddress.location AS sendFrom, receiver.name AS receiverName, receiver.phoneNumber AS receiverPhoneNumber"
+            + ", receiverAddress.id AS toId, receiverAddress.location AS sendTo, package.description "
             + "AS packageInfo, package.weight FROM transport LEFT JOIN customer AS sender "
             + "ON transport.sender = sender.id LEFT JOIN customer AS receiver ON transport.receiver = receiver.id "
             + "LEFT JOIN package ON transport.package = package.id LEFT JOIN address AS senderAddress "
@@ -71,9 +75,11 @@ public class DatabaseConnection {
                 transport.setDistance(Float.parseFloat(resultSet.getString("distance")));
                 packageTransport = new Package(Integer.parseInt(resultSet.getString("package")), null, 0);
                 sender.setName(resultSet.getString("senderName"));
+                sender.setPhoneNumber(resultSet.getString("senderPhoneNumber"));
                 sendFrom = new Address(Integer.parseInt(resultSet.getString("fromId")), resultSet.getString("sendFrom"));
                 sender.setAddress(sendFrom);
                 receiver.setName(resultSet.getString("receiverName"));
+                receiver.setPhoneNumber(resultSet.getString("receiverPhoneNumber"));
                 sendTo = new Address(Integer.parseInt(resultSet.getString("toId")), resultSet.getString("sendTo"));
                 receiver.setAddress(sendTo);
                 packageTransport.setDescription(resultSet.getString("packageInfo"));
@@ -82,6 +88,35 @@ public class DatabaseConnection {
                 transport.setReceiver(receiver);
                 transport.setPackageTransport(packageTransport);
                 transports.add(transport);
+
+                for (Sender senderTemp : senders)
+                {
+                    if (sender.getId() == senderTemp.getId())
+                    {
+                        flag=1;
+                        senderTemp.packageSend.add(packageTransport.getId());
+                    }
+                }
+                if (flag==0)
+                {
+                    senders.add(sender);
+                    sender.packageSend.add(packageTransport.getId());
+                }
+                flag = 0;
+                for (Receiver receiverTemp : receivers)
+                {
+                    if (receiver.getId() == receiverTemp.getId())
+                    {
+                        flag=1;
+                        receiverTemp.packageReceive.add(packageTransport.getId());
+                    }
+                }
+                if (flag==0)
+                {
+                    receivers.add(receiver);
+                    receiver.packageReceive.add(packageTransport.getId());
+                }
+                flag = 0;
             }     
 
             try 
@@ -96,8 +131,10 @@ public class DatabaseConnection {
         {
             e.printStackTrace();
         }
-
-        return transports;
+        objects[0][0] = transports;
+        objects[0][1] = senders;
+        objects[0][2] = receivers;
+        return objects;
     }
 	
 }
