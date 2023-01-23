@@ -13,14 +13,17 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class PriceSettingGUI extends JFrame {
+public class PriceSettingGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField roadDistanceTF;
+	private JTextField roadWeightTF;
+	private JTextField airlineDistanceTF;
+	private JTextField airlineWeightTF;
+	private JButton saveBtn, cancelBtn;
 
 	/**
 	 * Create the frame.
@@ -35,45 +38,47 @@ public class PriceSettingGUI extends JFrame {
 
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("Vận chuyển đường bộ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel roadLabel = new JLabel("Vận chuyển đường bộ");
+		roadLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblNewLabel_1 = new JLabel("Vận chuyển đường hàng không");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel airlineLabel = new JLabel("Vận chuyển đường hàng không");
+		airlineLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblNewLabel_2 = new JLabel("Chi phí trên 1 km khoảng cách");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JLabel roadDistanceLbl = new JLabel("Chi phí trên 1 km khoảng cách");
+		roadDistanceLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Chi phí trên 1 kg cân nặng");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JLabel roadWeightLbl = new JLabel("Chi phí trên 1 kg cân nặng");
+		roadWeightLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblNewLabel_2_2 = new JLabel("Chi phí trên 1 km khoảng cách");
-		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JLabel airlineDistanceLbl = new JLabel("Chi phí trên 1 km khoảng cách");
+		airlineDistanceLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Chi phí trên 1 kg cân nặng");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JLabel airlineWeightLbl = new JLabel("Chi phí trên 1 kg cân nặng");
+		airlineWeightLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField.setColumns(10);
+		roadDistanceTF = new JTextField();
+		roadDistanceTF.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		roadDistanceTF.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField_1.setColumns(10);
+		roadWeightTF = new JTextField();
+		roadWeightTF.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		roadWeightTF.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField_2.setColumns(10);
+		airlineDistanceTF = new JTextField();
+		airlineDistanceTF.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		airlineDistanceTF.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField_3.setColumns(10);
+		airlineWeightTF = new JTextField();
+		airlineWeightTF.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		airlineWeightTF.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Lưu");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		saveBtn = new JButton("Lưu");
+		saveBtn.addActionListener(this);
+		saveBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JButton btnHy = new JButton("Hủy");
-		btnHy.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cancelBtn = new JButton("Hủy");
+		cancelBtn.addActionListener(this);
+		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -82,65 +87,77 @@ public class PriceSettingGUI extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(roadLabel, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)
+								.addComponent(airlineLabel, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(56)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+									.addComponent(airlineWeightLbl, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
+									.addComponent(airlineWeightTF, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+									.addComponent(airlineDistanceLbl, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(airlineDistanceTF, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(55)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+									.addComponent(roadWeightLbl, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
+									.addComponent(roadWeightTF, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+									.addComponent(roadDistanceLbl, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(roadDistanceTF, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(105)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+							.addComponent(saveBtn, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 							.addGap(78)
-							.addComponent(btnHy, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(cancelBtn, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(83, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+					.addComponent(roadLabel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(textField)
-						.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+						.addComponent(roadDistanceTF)
+						.addComponent(roadDistanceLbl, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addComponent(roadWeightLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(roadWeightTF, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(20)
-					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+					.addComponent(airlineLabel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_2_2, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addComponent(airlineDistanceLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(airlineDistanceTF, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addComponent(airlineWeightTF, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(airlineWeightLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(33)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnHy, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+						.addComponent(saveBtn, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cancelBtn, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(19, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == saveBtn) {
+			
+		}
+		
+		if (e.getSource() == cancelBtn) {
+			
+		}
 	}
 }

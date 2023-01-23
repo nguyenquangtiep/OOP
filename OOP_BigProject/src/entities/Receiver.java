@@ -12,4 +12,14 @@ public class Receiver extends Human
         super(id,name,phoneNumber,address);
         this.role = roles.receiver.toString();
     }
+
+	public List<Integer> getPackageReceive() {
+		return packageReceive;
+	}
+
+	public void setPackageReceive(List<Integer> packageReceive) {
+		this.packageReceive = packageReceive;
+	}
+    
+    
 }

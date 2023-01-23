@@ -12,4 +12,14 @@ public class Sender extends Human
         super(id,name,phoneNumber,address);
         this.role = roles.sender.toString();
     }
+
+	public List<Integer> getPackageSend() {
+		return packageSend;
+	}
+
+	public void setPackageSend(List<Integer> packageSend) {
+		this.packageSend = packageSend;
+	}
+    
+    
 }

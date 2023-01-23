@@ -12,13 +12,16 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class SearchGUI extends JFrame {
+public class SearchGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField customerTF;
 	private JTextField addressTF;
 	private JTextField priceTF;
+	private JButton searchBtn, cancelBtn;
 
 	/**
 	 * Create the frame.
@@ -54,10 +57,12 @@ public class SearchGUI extends JFrame {
 		priceTF.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		priceTF.setColumns(10);
 		
-		JButton searchBtn = new JButton("Tìm kiếm");
+		searchBtn = new JButton("Tìm kiếm");
+		searchBtn.addActionListener(this);
 		searchBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JButton cancelBtn = new JButton("Hủy");
+		cancelBtn = new JButton("Hủy");
+		cancelBtn.addActionListener(this);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -108,5 +113,17 @@ public class SearchGUI extends JFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == searchBtn) {
+			
+		}
+		
+		if (e.getSource() == cancelBtn) {
+			
+		}
 	}
 }

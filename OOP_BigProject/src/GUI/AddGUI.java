@@ -17,8 +17,10 @@ import java.awt.Color;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class AddGUI extends JFrame {
+public class AddGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField senderNameTF;
@@ -30,6 +32,8 @@ public class AddGUI extends JFrame {
 	private JTextField packageNameTF;
 	private JTextField packageWeightTF;
 	private JTextField distanceTF;
+	private JRadioButton roadRdbtn, airlineRdbtn;
+	private JButton saveBtn, deleteBtn, cancelBtn;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
@@ -123,13 +127,16 @@ public class AddGUI extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		
-		JButton saveBtn = new JButton("Lưu");
+		saveBtn = new JButton("Lưu");
+		saveBtn.addActionListener(this);
 		saveBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton deleteBtn = new JButton("Xóa");
+		deleteBtn = new JButton("Xóa");
+		deleteBtn.addActionListener(this);
 		deleteBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton cancelBtn = new JButton("Hủy");
+		cancelBtn = new JButton("Hủy");
+		cancelBtn.addActionListener(this);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -197,11 +204,11 @@ public class AddGUI extends JFrame {
 		distanceTF.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		distanceTF.setColumns(10);
 		
-		JRadioButton roadRdbtn = new JRadioButton("Đường bộ");
+		roadRdbtn = new JRadioButton("Đường bộ");
 		buttonGroup.add(roadRdbtn);
 		roadRdbtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JRadioButton airlineRdbtn = new JRadioButton("Đường hàng không");
+		airlineRdbtn = new JRadioButton("Đường hàng không");
 		buttonGroup.add(airlineRdbtn);
 		airlineRdbtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
@@ -366,5 +373,21 @@ public class AddGUI extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == saveBtn) {
+			
+		}
+		
+		if (e.getSource() == deleteBtn) {
+			
+		}
+		
+		if (e.getSource() == cancelBtn) {
+			setVisible(false);
+		}
 	}
 }
