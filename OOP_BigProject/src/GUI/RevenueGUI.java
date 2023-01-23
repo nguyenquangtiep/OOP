@@ -31,7 +31,7 @@ setBackground(new Color(255, 255, 255));
 		         "Tổng doanh thu",
 		         null,
 		         PlotOrientation.VERTICAL,
-		         true, true, false);
+		         false, false, false);
 		ChartPanel chartPanel = new ChartPanel(barChart);
 		chartPanel.setZoomInFactor(1.0);
 		

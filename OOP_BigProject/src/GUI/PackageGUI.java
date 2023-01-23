@@ -29,7 +29,7 @@ public class PackageGUI extends JPanel {
 		         "Tổng số đơn hàng",
 		         null,
 		         PlotOrientation.HORIZONTAL,
-		         true, true, false);
+		         false, false, false);
 		ChartPanel chartPanel = new ChartPanel(barChart);
 		chartPanel.setZoomInFactor(1.0);
 		
