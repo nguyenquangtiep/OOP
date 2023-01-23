@@ -30,7 +30,8 @@ public class HomeGUI extends JPanel {
 		table.setModel(new DefaultTableModel(
 			dataTest(),
 			new String[] {
-			"STT", "Mã đơn hàng", "Tên hàng", "Tên người gửi", "Tên người nhận", "Địa chỉ nhận", "Khoảng cách", "Hình thức", "Chi phí"}
+			"STT", "Mã đơn hàng", "Tên hàng", "Tên người gửi", "Tên người nhận", "Địa chỉ nhận", 
+			"Ngày giao hàng", "Thời gian", "Khoảng cách", "Hình thức", "Chi phí"}
 		));
 		scrollPane.setViewportView(table);
 

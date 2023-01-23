@@ -8,14 +8,22 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import com.github.lgooddatepicker.components.DatePicker;
+
+import connection.DatabaseConnection;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Color;
 
 public class PackageGUI extends JPanel {
+	
+	private DatabaseConnection databaseConnection = new DatabaseConnection();
 
 	/**
 	 * Create the panel.
@@ -81,5 +89,11 @@ public class PackageGUI extends JPanel {
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
+	}
+	
+	private CategoryDataset createDataset() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		return dataset;
 	}
 }
