@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -18,6 +20,9 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
 
 public class AddGUI extends JFrame implements ActionListener {
@@ -34,6 +39,7 @@ public class AddGUI extends JFrame implements ActionListener {
 	private JTextField distanceTF;
 	private JRadioButton roadRdbtn, airlineRdbtn;
 	private JButton saveBtn, deleteBtn, cancelBtn;
+	private DateTimePicker receiveDTP, sendDTP;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
@@ -218,11 +224,11 @@ public class AddGUI extends JFrame implements ActionListener {
 		JLabel sendDateLbl = new JLabel("Ngày giao hàng");
 		sendDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		DateTimePicker receiveDTP = new DateTimePicker();
+		receiveDTP = new DateTimePicker();
 		receiveDTP.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		receiveDTP.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		DateTimePicker sendDTP = new DateTimePicker();
+		sendDTP = new DateTimePicker();
 		sendDTP.getTimePicker().getComponentTimeTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		sendDTP.getDatePicker().getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
@@ -379,11 +385,86 @@ public class AddGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == saveBtn) {
-			
+			String senderName, senderPhone, senderAddress, receiverName, receiverPhone, receiverAddress,
+			packageName, packageWeight, distance, transportType = null, receiveTime, receiveDate, sendDate, sendTime;
+			senderName = senderNameTF.getText();
+			senderPhone = senderPhoneTF.getText();
+			senderAddress = senderAddressTF.getText();
+			receiverName = receiverNameTF.getText();
+			receiverPhone = receiverPhoneTF.getText();
+			receiverAddress = receiverAddressTF.getText();
+			packageName = packageNameTF.getText();
+			packageWeight = packageWeightTF.getText();
+			distance = distanceTF.getText();
+			if (roadRdbtn.isSelected()) {
+				transportType = "road";
+			}
+			else if (airlineRdbtn.isSelected()) {
+				transportType = "air";
+			}
+			receiveTime = receiveDTP.getTimePicker().getText();
+			receiveDate = receiveDTP.getDatePicker().getText();
+			sendDate = sendDTP.getDatePicker().getText();
+			sendTime = sendDTP.getTimePicker().getText();
+			if (senderName.isEmpty() || senderName.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên người gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (senderPhone.isEmpty() || senderPhone.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại người gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (senderAddress.isEmpty() || senderAddress.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ lấy hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (receiverName.isEmpty() || receiverName.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên người nhận !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (receiverPhone.isEmpty() || receiverPhone.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại người nhận !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (receiverAddress.isEmpty() || receiverAddress.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ giao hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (packageName.isEmpty() || packageName.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên gói hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (packageWeight.isEmpty() || packageWeight.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Số cân nặng của gói hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (distance.isEmpty() || distance.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Khoảng cách gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (transportType == null) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn Loại hình vận chuyển !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (receiveDate.isEmpty() || receiveDate.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày lấy hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (receiveTime.isEmpty() || receiveTime.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn Thời gian lấy hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (sendDate.isEmpty() || sendDate.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày giao hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (sendTime.isEmpty() || sendTime.isBlank()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Thời gian giao hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		
 		if (e.getSource() == deleteBtn) {
-			
+			senderNameTF.setText(null);
+			senderPhoneTF.setText(null);
+			senderAddressTF.setText(null);
+			receiverNameTF.setText(null);
+			receiverPhoneTF.setText(null);
+			receiverAddressTF.setText(null);
+			packageNameTF.setText(null);
+			packageWeightTF.setText(null);
+			distanceTF.setText(null);
+			receiveDTP.getDatePicker().setText(null);
+			receiveDTP.getTimePicker().setText(null);
+			sendDTP.getDatePicker().setText(null);
+			sendDTP.getTimePicker().setText(null);
+			buttonGroup.clearSelection();
 		}
 		
 		if (e.getSource() == cancelBtn) {

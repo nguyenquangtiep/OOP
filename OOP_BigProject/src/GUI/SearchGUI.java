@@ -123,7 +123,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 		}
 		
 		if (e.getSource() == cancelBtn) {
-			
+			setVisible(false);
 		}
 	}
 }

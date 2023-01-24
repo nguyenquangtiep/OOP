@@ -48,8 +48,10 @@ public class PackageGUI extends JPanel {
 		toDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		DatePicker fromDatePicker = new DatePicker();
+		fromDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		DatePicker toDatePicker = new DatePicker();
+		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JButton confirmBtn = new JButton("Xác nhận");
 		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));

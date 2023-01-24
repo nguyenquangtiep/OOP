@@ -42,8 +42,10 @@ setBackground(new Color(255, 255, 255));
 		toDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		DatePicker fromDatePicker = new DatePicker();
+		fromDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		DatePicker toDatePicker = new DatePicker();
+		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JButton confirmtBtn = new JButton("Xác nhận");
 		confirmtBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
