@@ -1,26 +1,34 @@
 package connection;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import entities.Address;
 import entities.Package;
+import entities.PriceSetting;
 import entities.Receiver;
 import entities.Sender;
 import entities.Transport;
 
-public class DatabaseConnection {
+public class DatabaseConnection 
+{
 
 	private String url = "jdbc:mysql://127.0.0.1:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection = null;
 
     public DatabaseConnection()
     {
-        System.out.println("Processing");
         try
         {
             connection = DriverManager.getConnection(url, "root", "");
@@ -65,12 +73,8 @@ public class DatabaseConnection {
                 receiver = new Receiver(Integer.parseInt(resultSet.getString("receiver")), null, null, null);
                 transport.setFee(Float.parseFloat(resultSet.getString("fee")));
                 transport.setTransportType(resultSet.getString("transportType"));
-                s = resultSet.getString("sendDate").split("[- :]");
-                calendar.set(Integer.parseInt(s[0]), Integer.parseInt(s[1]),Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[5]));
-                transport.setSendDate(calendar);
-                s = resultSet.getString("receiveDateEstimation").split("[- :]");
-                calendar.set(Integer.parseInt(s[0]), Integer.parseInt(s[1]),Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[5]));
-                transport.setReceiveDateEstimation(calendar);
+                transport.setSendDate(resultSet.getString("sendDate"));
+                transport.setReceiveDateEstimation(resultSet.getString("receiveDateEstimation"));
                 transport.setStatus(resultSet.getString("status"));
                 transport.setDistance(Float.parseFloat(resultSet.getString("distance")));
                 packageTransport = new Package(Integer.parseInt(resultSet.getString("package")), null, 0);
@@ -119,22 +123,83 @@ public class DatabaseConnection {
                 flag = 0;
             }     
 
-            try 
-            {
-                resultSet.close();
-                stm.close();    
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } 
-        catch (Exception e) 
+            objects[0][0] = transports;
+            objects[0][1] = senders;
+            objects[0][2] = receivers;
+
+            resultSet.close();
+            stm.close();
+            connection.close();
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        objects[0][0] = transports;
-        objects[0][1] = senders;
-        objects[0][2] = receivers;
+        
         return objects;
     }
 	
+    public void updatePrice()
+    {
+        try 
+        {
+            List<PriceSetting> priceSettings = readFile();
+            String[] s = new String[5];
+            int i=0;
+            String[] priceSetting1 = priceSettings.get(0).getPriceSetting().split("[|]");
+            String[] priceSetting2 = priceSettings.get(1).getPriceSetting().split("[|]");
+            for (String sTemp : priceSetting1)
+            {
+                s[i++] = sTemp;
+            }
+            for (String sTemp : priceSetting2)
+            {
+                s[i++] = sTemp;
+            }
+
+            String query = "UPDATE transport "
+            + "LEFT JOIN package "
+            + "ON transport.package = package.id "
+            + "SET fee = " + s[0] + "*distance+"
+            + s[1] + "*weight "
+            + "WHERE transport.transportType = 'road';";
+        
+            String query1 = "UPDATE transport "
+            + "LEFT JOIN package "
+            + "ON transport.package = package.id "
+            + "SET fee = " + s[2] + "*distance+"
+            + s[3] + "*weight+200000 "
+            + "WHERE transport.transportType = 'air';" ;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement(query1);
+            preparedStatement.executeUpdate();
+
+            connection.close();
+        } 
+        catch (Exception e) 
+        {
+            // TODO: handle exception
+        }
+    }
+
+    public List<PriceSetting> readFile()
+	{
+		try 
+		{
+			Gson gson = new Gson();
+			Reader reader = Files.newBufferedReader(Paths.get("src\\pricesetting.json"));
+			List<PriceSetting> priceSettings = gson.fromJson(reader, new TypeToken<List<PriceSetting>>() {}.getType());
+			reader.close();
+			return priceSettings;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

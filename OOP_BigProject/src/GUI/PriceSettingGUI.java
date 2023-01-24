@@ -5,6 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import connection.DatabaseConnection;
+import entities.PriceSetting;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
@@ -14,10 +22,17 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class PriceSettingGUI extends JFrame implements ActionListener {
 
+	private DatabaseConnection databaseConnection = new DatabaseConnection();
 	private JPanel contentPane;
 	private JTextField roadDistanceTF;
 	private JTextField roadWeightTF;
@@ -150,14 +165,109 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == saveBtn) {
+	public void actionPerformed(ActionEvent e) 
+	{
+		if (e.getSource() == saveBtn) 
+		{
+			String s[] = new String[4];
+			s[0] = roadDistanceTF.getText();
+			s[1] = roadWeightTF.getText();
+			s[2] = airlineDistanceTF.getText();
+			s[3] = airlineWeightTF.getText();
 			
+			// Nếu một trong các ô chứa kí tự không phải chữ số --> return true
+			boolean containCharacterThatIsNotNumber = false;
+			for (String sTemp : s)
+			{
+				if (containCharacterThatIsNotNumber(sTemp))
+				{
+					System.out.println("Khong duoc phep chua ki tu khong phai chu so");
+					containCharacterThatIsNotNumber = true;
+				}
+			}
+
+			// Nếu các ô chỉ chứa chữ số hoặc không có gì --> tiếp tục kiểm tra null
+			if (!containCharacterThatIsNotNumber)
+			{
+				List<PriceSetting> priceSettings = readFile();
+				PriceSetting priceSetting1 = priceSettings.get(0);
+				PriceSetting priceSetting2 = priceSettings.get(1);
+				
+				if (!isNull(s[0])) priceSetting1.setPriceSetting
+				(s[0] + "|" + priceSetting1.getPriceSetting().split("[|]")[1]);
+
+				if (!isNull(s[1])) priceSetting1.setPriceSetting
+				(priceSetting1.getPriceSetting().split("[|]")[0] + "|" + s[1]);
+
+				if (!isNull(s[2])) priceSetting2.setPriceSetting
+				(s[2] + "|" + priceSetting2.getPriceSetting().split("[|]")[1] + "|" + priceSetting2.getPriceSetting().split("[|]")[2]);
+
+				if (!isNull(s[3])) priceSetting2.setPriceSetting
+				(priceSetting2.getPriceSetting().split("[|]")[0] + "|" + s[3] + "|" + priceSetting2.getPriceSetting().split("[|]")[2]);
+
+				System.out.println(priceSetting1.getPriceSetting() + ":" + priceSetting2.getPriceSetting());
+				writeFile(priceSettings);
+				databaseConnection.updatePrice();
+			}
 		}
 		
 		if (e.getSource() == cancelBtn) {
-			
+			PriceSettingGUI.this.dispose();
+		}
+	}
+
+	public boolean isNull(String s)
+	{
+		if (s.length() == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean containCharacterThatIsNotNumber(String s)
+	{
+		char[] sAlphabet = s.toLowerCase().toCharArray();
+		for (char c : sAlphabet)
+		{
+			if (c < '0' || '9' < c)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<PriceSetting> readFile()
+	{
+		try 
+		{
+			Gson gson = new Gson();
+			Reader reader = Files.newBufferedReader(Paths.get("src\\pricesetting.json"));
+			List<PriceSetting> priceSettings = gson.fromJson(reader, new TypeToken<List<PriceSetting>>() {}.getType());
+			reader.close();
+			return priceSettings;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void writeFile(List<PriceSetting> priceSettings)
+	{
+		try 
+		{
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Writer writer = new FileWriter("src\\pricesetting.json");
+			gson.toJson(priceSettings, writer);
+			writer.close();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
 		}
 	}
 }

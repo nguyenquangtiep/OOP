@@ -43,7 +43,8 @@ public class HomeGUI extends JPanel {
 	{
 		List<Transport> transports = (List<Transport>)databaseConnection.testSelect()[0][0];
 		int i = 0;
-		Object[][] objects = new Object[transports.size()][9];
+		Object[][] objects = new Object[transports.size()][11];
+		String[] s;
 		for (Transport transport : transports)
 		{
 			objects[i][0] = i+1;
@@ -52,9 +53,12 @@ public class HomeGUI extends JPanel {
 			objects[i][3] = transport.getSender().getName();
 			objects[i][4] = transport.getReceiver().getName();
 			objects[i][5] = transport.getReceiver().getAddress().getLocation();
-			objects[i][6] = transport.getDistance();
-			objects[i][7] = transport.getTransportType();
-			objects[i++][8] = transport.getFee();
+			s = transport.getReceiveDateEstimation().split("[- :]");
+			objects[i][6] = s[2]+"-"+s[1]+"-"+s[0];
+			objects[i][7] = s[3]+":"+s[4]+":"+s[5];
+			objects[i][8] = transport.getDistance();
+			objects[i][9] = transport.getTransportType();
+			objects[i++][10] = transport.getFee();
 		}
 
 		return objects;
