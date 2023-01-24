@@ -8,14 +8,14 @@ public class Transport
     private Receiver receiver;
     private float fee;
     private String transportType;
-    private Calendar sendDate;
-    private Calendar receiveDateEstimation;
+    private String sendDate;
+    private String receiveDateEstimation;
     private String status;
     private float distance;
     private Package packageTransport;
     
     public Transport(Sender sender, Receiver receiver, float fee, String transportType, 
-    Calendar sendDate, Calendar receiveDateEstimation, String status, float distance, 
+    String sendDate, String receiveDateEstimation, String status, float distance, 
     Package packageTransport) 
     {
         this.sender = sender;
@@ -60,19 +60,19 @@ public class Transport
     {
         this.transportType = transportType;
     }
-    public Calendar getSendDate() 
+    public String getSendDate() 
     {
         return sendDate;
     }
-    public void setSendDate(Calendar sendDate) 
+    public void setSendDate(String sendDate) 
     {
         this.sendDate = sendDate;
     }
-    public Calendar getReceiveDateEstimation() 
+    public String getReceiveDateEstimation() 
     {
         return receiveDateEstimation;
     }
-    public void setReceiveDateEstimation(Calendar receiveDateEstimation) 
+    public void setReceiveDateEstimation(String receiveDateEstimation) 
     {
         this.receiveDateEstimation = receiveDateEstimation;
     }
