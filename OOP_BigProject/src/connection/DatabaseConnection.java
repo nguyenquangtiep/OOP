@@ -23,7 +23,7 @@ import entities.Transport;
 public class DatabaseConnection 
 {
 
-	private String url = "jdbc:mysql://127.0.0.1:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
+	private String url = "jdbc:mysql://127.0.0.1:3306/package_management1?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection = null;
 
     public DatabaseConnection()
@@ -194,7 +194,7 @@ public class DatabaseConnection
             {
                 if (!resultSet.isBeforeFirst())
                 {
-                    query = "INSERT INTO address (location) VALUES (\"" + sender.getAddress().getLocation() + "\")";
+                    query = "INSERT INTO address VALUES (null,\"" + sender.getAddress().getLocation() + "\")";
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.executeUpdate();
                 }
@@ -216,7 +216,7 @@ public class DatabaseConnection
                 
                 if (!resultSet.isBeforeFirst())
                 {
-                    query = "INSERT INTO address (location) VALUES (\"" + receiver.getAddress().getLocation() + "\")";
+                    query = "INSERT INTO address VALUES (null,\"" + receiver.getAddress().getLocation() + "\")";
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.executeUpdate();
                 }
@@ -238,8 +238,8 @@ public class DatabaseConnection
 
                 if (!resultSet.isBeforeFirst())
                 {
-                    query = "INSERT INTO customer(name,phoneNumber,address,role) VALUES "
-                    + "(\"" + sender.getName() + "\",\"" + sender.getPhoneNumber() + "\","
+                    query = "INSERT INTO customer VALUES "
+                    + "(null,\"" + sender.getName() + "\",\"" + sender.getPhoneNumber() + "\","
                     + sender.getAddress().getId() + ",1);";
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.executeUpdate();
@@ -263,8 +263,8 @@ public class DatabaseConnection
 
                 if (!resultSet.isBeforeFirst())
                 {
-                    query = "INSERT INTO customer(name,phoneNumber,address,role) VALUES "
-                    + "(\"" + receiver.getName() + "\",\"" + receiver.getPhoneNumber() + "\","
+                    query = "INSERT INTO customer VALUES "
+                    + "(null,\"" + receiver.getName() + "\",\"" + receiver.getPhoneNumber() + "\","
                     + receiver.getAddress().getId() + ",1);";
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.executeUpdate();
@@ -282,8 +282,8 @@ public class DatabaseConnection
 
             // package
             {
-                query = "INSERT INTO package (description,weight) VALUES "
-                + "(\"" + packageTransport.getDescription() + "\"," 
+                query = "INSERT INTO package VALUES "
+                + "(null,\"" + packageTransport.getDescription() + "\"," 
                 + packageTransport.getWeight() +");";
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.executeUpdate();
