@@ -113,6 +113,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		getContentPane().add(prePanel);
 	}
 
+	public JPanel getPrePanel() {
+		return prePanel;
+	}
+
+	public void setPrePanel(JPanel prePanel) {
+		this.prePanel = prePanel;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == homeItem) {
@@ -138,7 +146,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		if (e.getSource() == addItem) {
 			if (addFrame == null || addFrame.isVisible() == false) {
-				addFrame = new AddGUI();
+				addFrame = new AddGUI(this);
 			}
 			addFrame.setVisible(true);
 		}

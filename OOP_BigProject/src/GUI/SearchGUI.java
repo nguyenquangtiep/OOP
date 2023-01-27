@@ -6,6 +6,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -115,7 +117,43 @@ public class SearchGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == searchBtn) {
+			String customer, address, price;
 			
+			customer = customerTF.getText();
+			address = addressTF.getText();
+			price = priceTF.getText();
+			
+			boolean condition1, condition2, condition3;
+			condition1 = (customer.isBlank() || customer.isEmpty());
+			condition2 = (address.isBlank() || address.isEmpty());
+			condition3 = (price.isBlank() || price.isEmpty());
+			
+			
+			
+			if (condition1 && condition2 && condition3) {
+				JOptionPane.showMessageDialog(this, "", "Vui lòng nhập một điều kiện để tìm kiếm !", JOptionPane.PLAIN_MESSAGE);
+			}
+			else if (condition1 && condition2) {
+				
+			}
+			else if (condition2 && condition3) {
+				
+			}
+			else if (condition1 && condition3) {
+				
+			}
+			else if (condition1) {
+				
+			}
+			else if (condition2) {
+				
+			}
+			else if (condition3) {
+				
+			}
+			else {
+				
+			}
 		}
 		
 		if (e.getSource() == cancelBtn) {
