@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.Calendar;
-
 public class Transport 
 {
     private Sender sender;

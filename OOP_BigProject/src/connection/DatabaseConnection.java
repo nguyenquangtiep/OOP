@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -31,7 +30,7 @@ public class DatabaseConnection
     {
         try
         {
-            connection = DriverManager.getConnection(url, "root", "Anonymous2001");
+            connection = DriverManager.getConnection(url, "root", "");
         }
         catch(Exception e)
         {
@@ -47,12 +46,10 @@ public class DatabaseConnection
         int flag=0;
         List<Transport> transports = new ArrayList<>();
         Transport transport;
-        String s[] = new String[6];
         Sender sender = new Sender(0, null, null, null);
         Receiver receiver = new Receiver(0, null, null, null);
         Package packageTransport = new Package(0, null, 0);
         Address sendFrom, sendTo;
-        Calendar calendar = Calendar.getInstance();
         try 
         {
             Statement stm = connection.createStatement();
@@ -129,7 +126,7 @@ public class DatabaseConnection
 
             resultSet.close();
             stm.close();
-            connection.close();
+            
         }
         catch (Exception e)
         {
@@ -168,7 +165,7 @@ public class DatabaseConnection
             + "LEFT JOIN package "
             + "ON transport.package = package.id "
             + "SET fee = " + s[2] + "*distance+"
-            + s[3] + "*weight+200000 "
+            + s[3] + "*weight+" + s[4] + " "
             + "WHERE transport.transportType = 'air';" ;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -177,11 +174,146 @@ public class DatabaseConnection
             preparedStatement = connection.prepareStatement(query1);
             preparedStatement.executeUpdate();
 
-            connection.close();
         } 
         catch (Exception e) 
         {
-            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+
+    public void addTransport(Sender sender, Receiver receiver, Package packageTransport, Transport transport)
+    {
+        try 
+        {
+            String query = "SELECT * FROM address WHERE location = \"" + sender.getAddress().getLocation() + "\";";
+            Statement stm = connection.createStatement();
+            ResultSet resultSet = stm.executeQuery(query);
+            PreparedStatement preparedStatement;
+
+            // send address
+            {
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO address (location) VALUES (\"" + sender.getAddress().getLocation() + "\")";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM address WHERE location = \"" + sender.getAddress().getLocation() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next()) 
+                {
+                    sender.getAddress().setId(Integer.parseInt(resultSet.getString("id")));   
+                }
+                System.out.println(sender.getAddress().getId());
+            }
+
+            // receive address
+            {
+                query = "SELECT * FROM address WHERE location = \"" + receiver.getAddress().getLocation() + "\";";
+                stm = connection.createStatement();
+                resultSet = stm.executeQuery(query);
+                
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO address (location) VALUES (\"" + receiver.getAddress().getLocation() + "\")";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM address WHERE location = \"" + receiver.getAddress().getLocation() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next()) 
+                {
+                    receiver.getAddress().setId(Integer.parseInt(resultSet.getString("id")));   
+                }
+                System.out.println(receiver.getAddress().getId());
+            }
+            
+            // sender
+            {
+                query = "SELECT * FROM customer WHERE name = \"" + sender.getName() + "\" && phoneNumber = \"" + sender.getPhoneNumber() + "\" "
+                + "&& address = \"" + sender.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO customer(name,phoneNumber,address,role) VALUES "
+                    + "(\"" + sender.getName() + "\",\"" + sender.getPhoneNumber() + "\","
+                    + sender.getAddress().getId() + ",1);";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM customer WHERE name = \"" + sender.getName() + "\" && phoneNumber = \"" + sender.getPhoneNumber() + "\" "
+                + "&& address = \"" + sender.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next())
+                {
+                    sender.setId(Integer.parseInt(resultSet.getString("id")));
+                }
+                System.out.println(sender.getId());
+            }
+
+            // receiver
+            {
+                query = "SELECT * FROM customer WHERE name = \"" + receiver.getName() + "\" && phoneNumber = \"" + receiver.getPhoneNumber() + "\" "
+                + "&& address = \"" + receiver.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO customer(name,phoneNumber,address,role) VALUES "
+                    + "(\"" + receiver.getName() + "\",\"" + receiver.getPhoneNumber() + "\","
+                    + receiver.getAddress().getId() + ",1);";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM customer WHERE name = \"" + receiver.getName() + "\" && phoneNumber = \"" + receiver.getPhoneNumber() + "\" "
+                + "&& address = \"" + receiver.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next())
+                {
+                    receiver.setId(Integer.parseInt(resultSet.getString("id")));
+                }
+                System.out.println(receiver.getId());
+            }
+
+            // package
+            {
+                query = "INSERT INTO package (description,weight) VALUES "
+                + "(\"" + packageTransport.getDescription() + "\"," 
+                + packageTransport.getWeight() +");";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.executeUpdate();
+
+                query = "SELECT MAX(id) FROM package;";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next())
+                {
+                    packageTransport.setId(Integer.parseInt(resultSet.getString("MAX(id)")));
+                }
+                System.out.println(packageTransport.getId());
+            }
+
+            // transport
+            {
+                query = "INSERT INTO transport (sender,receiver,fee,transportType,sendDate,receiveDateEstimation,status,distance,package) "
+                + "VALUES"
+                + "(" + sender.getId() + "," + receiver.getId() + "," + transport.getFee() + ",\"" + transport.getTransportType() +"\",\"" 
+                + transport.getSendDate() + "\",\"" + transport.getReceiveDateEstimation() + "\",\"" + transport.getStatus() + "\","
+                + transport.getDistance() + "," + packageTransport.getId() + ");";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.executeUpdate();
+            }
+
+            resultSet.close();
+            stm.close();
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
         }
     }
 
