@@ -14,9 +14,19 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import java.awt.Color;
 import com.github.lgooddatepicker.components.DateTimePicker;
+
+import connection.DatabaseConnection;
+import entities.Address;
+import entities.Receiver;
+import entities.Sender;
+import entities.Transport;
+import entities.Package;
+
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 public class AddGUI extends JFrame implements ActionListener {
@@ -35,6 +45,12 @@ public class AddGUI extends JFrame implements ActionListener {
 	private JButton saveBtn, deleteBtn, cancelBtn;
 	private DateTimePicker receiveDTP, sendDTP;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	
+	Sender sender;
+	Receiver receiver;
+	Package packageTransport;
+	Transport transport;
+	DatabaseConnection dataConnect = new DatabaseConnection();
 
 	/**
 	 * Create the frame.
@@ -395,10 +411,16 @@ public class AddGUI extends JFrame implements ActionListener {
 			else if (airlineRdbtn.isSelected()) {
 				transportType = "air";
 			}
-			receiveTime = receiveDTP.getTimePicker().getText();
-			receiveDate = receiveDTP.getDatePicker().getText();
-			sendDate = sendDTP.getDatePicker().getText();
-			sendTime = sendDTP.getTimePicker().getText();
+			receiveTime = receiveDTP.getTimePicker().toString();
+			receiveDate = receiveDTP.getDatePicker().toString();
+			sendDate = sendDTP.getDatePicker().toString();
+			sendTime = sendDTP.getTimePicker().toString();
+			
+			Pattern pattern = Pattern.compile("\\d*");
+	        Matcher matcher1, matcher2;
+	        matcher1 = pattern.matcher(packageWeight);
+	        matcher2 = pattern.matcher(distance);
+			
 			if (senderName.isEmpty() || senderName.isBlank()) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên người gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
@@ -440,6 +462,21 @@ public class AddGUI extends JFrame implements ActionListener {
 			}
 			else if (sendTime.isEmpty() || sendTime.isBlank()) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập Thời gian giao hàng !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (!matcher1.matches()){
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Cân nặng là kiểu số !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (!matcher2.matches()){
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập Khoảng cách là kiểu số !", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				sender = new Sender(0, senderName, senderPhone, new Address(0, senderAddress));
+				receiver = new Receiver(0, receiverName, receiverPhone, new Address(0, receiverAddress));
+				packageTransport = new Package(0, packageName, Float.parseFloat(packageWeight));
+				transport = new Transport(sender, receiver, 0, transportType, receiveDate+" "+receiveTime+":00",
+						sendDate+" "+sendTime+":00", "On Going", Float.parseFloat(distance), packageTransport);
+				dataConnect.addTransport(sender, receiver, packageTransport, transport);
+				setVisible(false);
 			}
 		}
 		
