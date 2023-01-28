@@ -308,9 +308,191 @@ public class DatabaseConnection
                 preparedStatement.executeUpdate();
             }
 
+            updatePrice();
+
             resultSet.close();
             stm.close();
+            preparedStatement.close();
         } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+    }
+
+    // Xóa đơn hàng bằng id
+    public void deleteById(int id)
+    {
+        String query = "DELETE FROM transport WHERE package = " + id + ";";
+        try 
+        {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+
+            statement.close();
+        } 
+        catch (Exception e) 
+        {
+           e.printStackTrace();
+        }
+    }
+
+    // Kiểm tra đơn hàng có tồn tại bằng id
+    @SuppressWarnings("unchecked")
+    public boolean checkById(int id)
+    {
+        List<Transport> transports = (List<Transport>) testSelect()[0][0];
+        Transport transport = null;
+        int size = transports.size();
+        for (int i=0;i<size;i++)
+        {
+            if (transports.get(i).getPackageTransport().getId() == id)
+                transport = transports.get(i);
+        }
+
+        if (transport != null) return true;
+        return false;
+    }
+
+    // Lấy đơn hàng bằng id
+    @SuppressWarnings("unchecked")
+    public Transport getById(int id)
+    {
+        List<Transport> transports = (List<Transport>) testSelect()[0][0];
+        Transport transport = null;
+        int size = transports.size();
+        for (int i=0;i<size;i++)
+        {
+            if (transports.get(i).getPackageTransport().getId() == id)
+                transport = transports.get(i);
+        }
+
+        return transport;
+    }
+
+    public void updateTransport(Sender sender, Receiver receiver, Package packageTransport, Transport transport)
+    {
+        try 
+        {
+            String query = "SELECT * FROM address WHERE location = \"" + sender.getAddress().getLocation() + "\";";
+            Statement stm = connection.createStatement();
+            ResultSet resultSet = stm.executeQuery(query);
+            PreparedStatement preparedStatement;
+
+            // send address
+            {
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO address VALUES (null,\"" + sender.getAddress().getLocation() + "\")";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM address WHERE location = \"" + sender.getAddress().getLocation() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next()) 
+                {
+                    sender.getAddress().setId(Integer.parseInt(resultSet.getString("id")));   
+                }
+                System.out.println(sender.getAddress().getId());
+            }
+
+            // receive address
+            {
+                query = "SELECT * FROM address WHERE location = \"" + receiver.getAddress().getLocation() + "\";";
+                stm = connection.createStatement();
+                resultSet = stm.executeQuery(query);
+                
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO address VALUES (null,\"" + receiver.getAddress().getLocation() + "\")";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM address WHERE location = \"" + receiver.getAddress().getLocation() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next()) 
+                {
+                    receiver.getAddress().setId(Integer.parseInt(resultSet.getString("id")));   
+                }
+                System.out.println(receiver.getAddress().getId());
+            }
+            
+            // sender
+            {
+                query = "SELECT * FROM customer WHERE name = \"" + sender.getName() + "\" && phoneNumber = \"" + sender.getPhoneNumber() + "\" "
+                + "&& address = \"" + sender.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO customer VALUES "
+                    + "(null,\"" + sender.getName() + "\",\"" + sender.getPhoneNumber() + "\","
+                    + sender.getAddress().getId() + ",1);";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM customer WHERE name = \"" + sender.getName() + "\" && phoneNumber = \"" + sender.getPhoneNumber() + "\" "
+                + "&& address = \"" + sender.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next())
+                {
+                    sender.setId(Integer.parseInt(resultSet.getString("id")));
+                }
+                System.out.println(sender.getId());
+            }
+
+            // receiver
+            {
+                query = "SELECT * FROM customer WHERE name = \"" + receiver.getName() + "\" && phoneNumber = \"" + receiver.getPhoneNumber() + "\" "
+                + "&& address = \"" + receiver.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+
+                if (!resultSet.isBeforeFirst())
+                {
+                    query = "INSERT INTO customer VALUES "
+                    + "(null,\"" + receiver.getName() + "\",\"" + receiver.getPhoneNumber() + "\","
+                    + receiver.getAddress().getId() + ",1);";
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.executeUpdate();
+                }
+                
+                query = "SELECT * FROM customer WHERE name = \"" + receiver.getName() + "\" && phoneNumber = \"" + receiver.getPhoneNumber() + "\" "
+                + "&& address = \"" + receiver.getAddress().getId() + "\";";
+                resultSet = stm.executeQuery(query);
+                while (resultSet.next())
+                {
+                    receiver.setId(Integer.parseInt(resultSet.getString("id")));
+                }
+                System.out.println(receiver.getId());
+            }
+
+            // package + transport
+            {
+                query = "UPDATE transport LEFT JOIN package "
+                + "ON transport.package = package.id "
+                + "SET sender = " +  sender.getId()
+                + ", receiver = " + receiver.getId()
+                + ", transportType = \"" + transport.getTransportType() + "\""
+                + ", sendDate = \"" + transport.getSendDate() + "\""
+                + ", receiveDateEstimation = \"" + transport.getReceiveDateEstimation() + "\""
+                + ", status = \"" + transport.getStatus() + "\""
+                + ", distance = " + transport.getDistance()
+                + ", description = \"" + packageTransport.getDescription() + "\""
+                + ", weight = " + packageTransport.getWeight() + " "
+                + "WHERE package = " + packageTransport.getId() + ";";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.executeUpdate();
+            }
+
+            updatePrice();
+
+            resultSet.close();
+            stm.close();
+            preparedStatement.close();
+        }
         catch (Exception e) 
         {
             e.printStackTrace();
