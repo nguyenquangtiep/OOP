@@ -182,8 +182,8 @@ public class UpdateGUI extends AddGUI {
 			}
 			else {
 				
-				sender = new Sender(id, senderName, senderPhone, new Address(0, senderAddress));
-				receiver = new Receiver(id, receiverName, receiverPhone, new Address(0, receiverAddress));
+				sender = new Sender(0, senderName, senderPhone, new Address(0, senderAddress));
+				receiver = new Receiver(0, receiverName, receiverPhone, new Address(0, receiverAddress));
 				packageTransport = new Package(id, packageName, weightF);
 				transport = new Transport(sender, receiver, 0, transportType, receiveDate+" "+receiveTime+":00",
 						sendDate+" "+sendTime+":00", "On Going", distanceF, packageTransport);

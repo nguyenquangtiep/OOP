@@ -499,6 +499,159 @@ public class DatabaseConnection
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByName(String name)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transports = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getSender().getName().contains(name))
+                transports.add(transport);
+        }
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getName().contains(name))
+                transports.add(transport);
+        }
+        return transports;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByAddress(String address)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transports = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getAddress().getLocation().contains(address))
+                transports.add(transport);
+        }
+        
+        return transports;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByFeeGreaterThan(Float fee)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transports = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getFee() > fee)
+                transports.add(transport);
+        }
+        
+        return transports;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByNameAndAddress(String name, String address)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transportsByName = new ArrayList<>();
+        List<Transport> transportsFinal = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getSender().getName().contains(name))
+                transportsByName.add(transport);
+        }
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getName().contains(name))
+                transportsByName.add(transport);
+        }
+
+        for (Transport transport : transportsByName)
+        {
+            if (transport.getReceiver().getAddress().getLocation().contains(address))
+                transportsFinal.add(transport);
+        }
+
+        return transportsFinal;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByAddressAndFeeGreaterThan(String address, Float fee)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transportsByAddress = new ArrayList<>();
+        List<Transport> transportsFinal = new ArrayList<>();
+
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getAddress().getLocation().contains(address))
+                transportsByAddress.add(transport);
+        }
+
+        for (Transport transport : transportsByAddress)
+        {
+            if (transport.getFee() > fee)
+                transportsFinal.add(transport);
+        }
+
+        return transportsFinal;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByNameAndFeeGreaterThan(String name, Float fee)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transportsByName = new ArrayList<>();
+        List<Transport> transportsFinal = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getSender().getName().contains(name))
+                transportsByName.add(transport);
+        }
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getName().contains(name))
+                transportsByName.add(transport);
+        }
+
+        for (Transport transport : transportsByName)
+        {
+            if (transport.getFee() > fee)
+                transportsFinal.add(transport);
+        }
+
+        return transportsFinal;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Transport> findByNameAndAddressAndFeeGreaterThan(String name, String address, Float fee)
+    {
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> transportsByName = new ArrayList<>();
+        List<Transport> transportsByAddress = new ArrayList<>();
+        List<Transport> transportsFinal = new ArrayList<>();
+        for (Transport transport : listTemp)
+        {
+            if (transport.getSender().getName().contains(name))
+                transportsByName.add(transport);
+        }
+        for (Transport transport : listTemp)
+        {
+            if (transport.getReceiver().getName().contains(name))
+                transportsByName.add(transport);
+        }
+
+        for (Transport transport : transportsByName)
+        {
+            if (transport.getReceiver().getAddress().getLocation().contains(address))
+                transportsByAddress.add(transport);
+        }
+
+        for (Transport transport : transportsByAddress)
+        {
+            if (transport.getFee() > fee)
+                transportsFinal.add(transport);
+        }
+
+        return transportsFinal;
+    }
+
     public List<PriceSetting> readFile()
 	{
 		try 
