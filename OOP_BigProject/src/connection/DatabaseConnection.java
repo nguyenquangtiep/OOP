@@ -506,14 +506,10 @@ public class DatabaseConnection
         List<Transport> transports = new ArrayList<>();
         for (Transport transport : listTemp)
         {
-            if (transport.getSender().getName().contains(name))
+            if (transport.getSender().getName().toLowerCase().contains(name.toLowerCase()) || transport.getReceiver().getName().toLowerCase().contains(name.toLowerCase()))
                 transports.add(transport);
         }
-        for (Transport transport : listTemp)
-        {
-            if (transport.getReceiver().getName().contains(name))
-                transports.add(transport);
-        }
+       
         return transports;
     }
 
@@ -524,7 +520,7 @@ public class DatabaseConnection
         List<Transport> transports = new ArrayList<>();
         for (Transport transport : listTemp)
         {
-            if (transport.getReceiver().getAddress().getLocation().contains(address))
+            if (transport.getReceiver().getAddress().getLocation().toLowerCase().contains(address.toLowerCase()))
                 transports.add(transport);
         }
         
@@ -553,18 +549,13 @@ public class DatabaseConnection
         List<Transport> transportsFinal = new ArrayList<>();
         for (Transport transport : listTemp)
         {
-            if (transport.getSender().getName().contains(name))
-                transportsByName.add(transport);
-        }
-        for (Transport transport : listTemp)
-        {
-            if (transport.getReceiver().getName().contains(name))
+            if (transport.getSender().getName().toLowerCase().contains(name.toLowerCase()) || transport.getReceiver().getName().toLowerCase().contains(name.toLowerCase()))
                 transportsByName.add(transport);
         }
 
         for (Transport transport : transportsByName)
         {
-            if (transport.getReceiver().getAddress().getLocation().contains(address))
+            if (transport.getReceiver().getAddress().getLocation().toLowerCase().contains(address.toLowerCase()))
                 transportsFinal.add(transport);
         }
 
@@ -580,7 +571,7 @@ public class DatabaseConnection
 
         for (Transport transport : listTemp)
         {
-            if (transport.getReceiver().getAddress().getLocation().contains(address))
+            if (transport.getReceiver().getAddress().getLocation().toLowerCase().contains(address.toLowerCase()))
                 transportsByAddress.add(transport);
         }
 
@@ -601,12 +592,7 @@ public class DatabaseConnection
         List<Transport> transportsFinal = new ArrayList<>();
         for (Transport transport : listTemp)
         {
-            if (transport.getSender().getName().contains(name))
-                transportsByName.add(transport);
-        }
-        for (Transport transport : listTemp)
-        {
-            if (transport.getReceiver().getName().contains(name))
+            if (transport.getSender().getName().toLowerCase().contains(name.toLowerCase()) || transport.getReceiver().getName().toLowerCase().contains(name.toLowerCase()))
                 transportsByName.add(transport);
         }
 
@@ -628,18 +614,13 @@ public class DatabaseConnection
         List<Transport> transportsFinal = new ArrayList<>();
         for (Transport transport : listTemp)
         {
-            if (transport.getSender().getName().contains(name))
-                transportsByName.add(transport);
-        }
-        for (Transport transport : listTemp)
-        {
-            if (transport.getReceiver().getName().contains(name))
+            if (transport.getSender().getName().toLowerCase().contains(name.toLowerCase()) || transport.getReceiver().getName().toLowerCase().contains(name.toLowerCase()))
                 transportsByName.add(transport);
         }
 
         for (Transport transport : transportsByName)
         {
-            if (transport.getReceiver().getAddress().getLocation().contains(address))
+            if (transport.getReceiver().getAddress().getLocation().toLowerCase().contains(address.toLowerCase()))
                 transportsByAddress.add(transport);
         }
 
