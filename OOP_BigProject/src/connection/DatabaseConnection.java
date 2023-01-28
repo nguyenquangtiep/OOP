@@ -23,14 +23,14 @@ import entities.Transport;
 public class DatabaseConnection 
 {
 
-	private String url = "jdbc:mysql://127.0.0.1:3306/package_management1?useUnicode=true&characterEncoding=UTF-8";
+	private String url = "jdbc:mysql://127.0.0.1:3306/package_management?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection = null;
 
     public DatabaseConnection()
     {
         try
         {
-            connection = DriverManager.getConnection(url, "root", "Anonymous2001");
+            connection = DriverManager.getConnection(url, "root", "");
         }
         catch(Exception e)
         {
