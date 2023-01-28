@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import connection.DatabaseConnection;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -10,6 +13,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
@@ -29,6 +34,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	private SearchGUI searchFrame;
 	private AddGUI addFrame;
 	private UpdateGUI updateFrame;
+	
+	DatabaseConnection dataConnect = new DatabaseConnection();
 
 	/**
 	 * Create the frame.
