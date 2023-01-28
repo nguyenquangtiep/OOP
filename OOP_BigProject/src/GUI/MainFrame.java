@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import connection.DatabaseConnection;
+import entities.Transport;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -36,6 +38,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	private UpdateGUI updateFrame;
 	
 	DatabaseConnection dataConnect = new DatabaseConnection();
+	List<Transport> transports;
 
 	/**
 	 * Create the frame.
@@ -118,6 +121,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		prePanel = new HomeGUI();
 		getContentPane().add(prePanel);
+		
 	}
 
 	public JPanel getPrePanel() {
@@ -146,7 +150,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		if (e.getSource() == searchItem) {
 			if (searchFrame == null || searchFrame.isVisible() == false) {
-				searchFrame = new SearchGUI();
+				searchFrame = new SearchGUI(this);
 			}
 			searchFrame.setVisible(true);
 		}

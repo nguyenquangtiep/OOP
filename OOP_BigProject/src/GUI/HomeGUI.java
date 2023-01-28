@@ -19,7 +19,7 @@ public class HomeGUI extends JPanel {
 	 * Create the panel.
 	 */
 	public HomeGUI() {
-		System.out.println("Processing");
+		
 		setBackground(new Color(255, 255, 255));
 		setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
@@ -28,20 +28,35 @@ public class HomeGUI extends JPanel {
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			dataTest(),
+			dataTest((List<Transport>)databaseConnection.testSelect()[0][0]),
 			new String[] {
 			"STT", "Mã đơn hàng", "Tên hàng", "Tên người gửi", "Tên người nhận", "Địa chỉ nhận", 
 			"Ngày giao hàng", "Thời gian", "Khoảng cách", "Hình thức", "Chi phí"}
 		));
 		scrollPane.setViewportView(table);
-
+	}
+	
+	public HomeGUI(List<Transport> transports) {
 		
+		setBackground(new Color(255, 255, 255));
+		setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 0 0,grow");
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			dataTest(transports),
+			new String[] {
+			"STT", "Mã đơn hàng", "Tên hàng", "Tên người gửi", "Tên người nhận", "Địa chỉ nhận", 
+			"Ngày giao hàng", "Thời gian", "Khoảng cách", "Hình thức", "Chi phí"}
+		));
+		scrollPane.setViewportView(table);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object[][] dataTest()
+	public Object[][] dataTest(List<Transport> transports)
 	{
-		List<Transport> transports = (List<Transport>)databaseConnection.testSelect()[0][0];
 		int i = 0;
 		Object[][] objects = new Object[transports.size()][11];
 		String[] s;
