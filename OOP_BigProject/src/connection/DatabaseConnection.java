@@ -30,7 +30,7 @@ public class DatabaseConnection
     {
         try
         {
-            connection = DriverManager.getConnection(url, "root", "Anonymous2001");
+            connection = DriverManager.getConnection(url, "root", "");
         }
         catch(Exception e)
         {

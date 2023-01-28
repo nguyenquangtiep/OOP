@@ -18,19 +18,28 @@ public class UpdateGUI extends AddGUI {
 
 	private static MainFrame frame;
 	private JPanel contentPane;
+	private int id;
 
 	/**
 	 * Create the frame.
 	 */
-	public UpdateGUI() {
+	public UpdateGUI(int id) {
 		super(frame);
+		this.id = id;
 		setTitle("Sửa đơn hàng");
+	}
+	
+	public void showInfo() {
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == getSaveBtn()) {
+			
+			
+			
 			String senderName, senderPhone, senderAddress, receiverName, receiverPhone, receiverAddress,
 			packageName, packageWeight, distance, transportType = null, receiveTime, receiveDate, sendDate, sendTime;
 			senderName = getSenderNameTF().getText();

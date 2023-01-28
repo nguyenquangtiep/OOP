@@ -161,17 +161,53 @@ public class MainFrame extends JFrame implements ActionListener {
 		if (e.getSource() == updateItem) {
 			String input = JOptionPane.showInputDialog(this, "Nhập mã đơn hàng cần sửa", null, JOptionPane.QUESTION_MESSAGE);
 			if (input != null && !input.isEmpty()) {
-				if (updateFrame == null || updateFrame.isVisible() == false) {
-					updateFrame = new UpdateGUI();
-				}
-				updateFrame.setVisible(true);
+				Pattern pattern = Pattern.compile("\\d*");
+		        Matcher matcher = pattern.matcher(input);
+		        if (matcher.matches()) {
+		        	int id = Integer.parseInt(input);
+		        	if (dataConnect.checkById(id)) {
+		        		
+		        		remove(prePanel);
+		        		prePanel = new HomeGUI();
+		        		add(prePanel);
+		        		revalidate();
+		        		if (updateFrame == null || updateFrame.isVisible() == false) {
+							updateFrame = new UpdateGUI(id);
+						}
+						updateFrame.setVisible(true);
+		        	}
+		        	else {
+		        		JOptionPane.showMessageDialog(this, "Mã đơn hàng không đúng !", null, JOptionPane.ERROR_MESSAGE);
+		        	}
+		        }
+		        else {
+		        	JOptionPane.showMessageDialog(this, "Mã đơn hàng phải là chữ số !", null, JOptionPane.ERROR_MESSAGE);
+		        }
 			}
 		}
 		
 		if (e.getSource() == deleteItem) {
 			String input = JOptionPane.showInputDialog(this, "Nhập mã đơn hàng muốn xóa", null, JOptionPane.QUESTION_MESSAGE);
 			if (input != null && !input.isEmpty()) {
-				JOptionPane.showMessageDialog(this, "Đơn hàng mã " + input + " đã bị xóa !", null, JOptionPane.INFORMATION_MESSAGE);
+				Pattern pattern = Pattern.compile("\\d*");
+		        Matcher matcher = pattern.matcher(input);
+		        if (matcher.matches()) {
+		        	int id = Integer.parseInt(input);
+		        	if (dataConnect.checkById(id)) {
+		        		dataConnect.deleteById(id);
+		        		JOptionPane.showMessageDialog(this, "Đơn hàng mã " + input + " đã bị xóa !", null, JOptionPane.INFORMATION_MESSAGE);
+		        		remove(prePanel);
+		        		prePanel = new HomeGUI();
+		        		add(prePanel);
+		        		revalidate();
+		        	}
+		        	else {
+		        		JOptionPane.showMessageDialog(this, "Mã đơn hàng không đúng !", null, JOptionPane.ERROR_MESSAGE);
+		        	}
+		        }
+		        else {
+		        	JOptionPane.showMessageDialog(this, "Mã đơn hàng phải là chữ số !", null, JOptionPane.ERROR_MESSAGE);
+		        }
 			}
 		}
 		
