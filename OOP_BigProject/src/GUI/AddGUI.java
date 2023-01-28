@@ -641,4 +641,13 @@ public class AddGUI extends JFrame implements ActionListener {
 	public void setCancelBtn(JButton cancelBtn) {
 		this.cancelBtn = cancelBtn;
 	}
+
+	public MainFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
+	}
+	
 }

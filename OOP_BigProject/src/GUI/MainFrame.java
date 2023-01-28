@@ -172,7 +172,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		        		add(prePanel);
 		        		revalidate();
 		        		if (updateFrame == null || updateFrame.isVisible() == false) {
-							updateFrame = new UpdateGUI(id);
+							updateFrame = new UpdateGUI(id, this);
 						}
 						updateFrame.setVisible(true);
 		        	}
