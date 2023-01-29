@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="D:/Eclipse/jfreechart-1.0.1/lib/junit.jar"/>
 	<classpathentry kind="lib" path="D:/Eclipse/jfreechart-1.0.1/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Acer/Desktop/jfreechart-1.5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

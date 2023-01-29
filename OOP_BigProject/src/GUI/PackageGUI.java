@@ -30,7 +30,6 @@ import java.awt.Color;
 public class PackageGUI extends JPanel implements ActionListener {
 	
 	private DatabaseConnection dataConnect = new DatabaseConnection();
-	private JFreeChart barChart;
 	private ChartPanel chartPanel;
 	private DatePicker fromDatePicker;
 	private DatePicker toDatePicker;
@@ -43,14 +42,7 @@ public class PackageGUI extends JPanel implements ActionListener {
 	public PackageGUI() {
 		setBackground(new Color(255, 255, 255));
 		
-		barChart = ChartFactory.createBarChart(
-		         "THỐNG KÊ ĐƠN HÀNG",
-		         "Ngày",
-		         "Tổng số đơn hàng",
-		         null,
-		         PlotOrientation.HORIZONTAL,
-		         false, false, false);
-		chartPanel = new ChartPanel(barChart);
+		chartPanel = new ChartPanel(createChart(null));;
 		
 		JLabel fromDateLbl = new JLabel("Từ ngày");
 		fromDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -105,6 +97,31 @@ public class PackageGUI extends JPanel implements ActionListener {
 		);
 		setLayout(groupLayout);
 	}
+	
+	private JFreeChart createChart(CategoryDataset dataset) {
+		
+		JFreeChart bar = ChartFactory.createBarChart(
+		         "THỐNG KÊ ĐƠN HÀNG",
+		         "Ngày",
+		         "Tổng số đơn hàng",
+		         dataset,
+		         PlotOrientation.HORIZONTAL,
+		         false, false, false);
+		
+		return bar;
+		
+	}
+	
+	private CategoryDataset createDataset(List<String[]> data) {
+		
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		for (int i = 0; i < data.size(); i++) {
+			dataset.addValue(Integer.parseInt(data.get(i)[1]), "", data.get(i)[0]);
+		}
+		
+		return dataset;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -114,19 +131,10 @@ public class PackageGUI extends JPanel implements ActionListener {
 			fromDate = fromDatePicker.toString();
 			toDate = toDatePicker.toString();
 			if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
-				
-//				String[] s1 = fromDate.split("[- :]");
-//				fromDate = s1[2]+"-"+s1[1]+"-"+s1[0];
-//				
-//				String[] s2 = toDate.split("[- :]");
-//				toDate = s2[2]+"-"+s2[1]+"-"+s2[0];
-				
 				count = dataConnect.countTransportPerDayBetween(fromDate, toDate);
-				
-				System.out.println("Size count: " + count.size());
-				
-				System.out.println("Từ ngày [" + fromDate + "] đến ngày [" + toDate + "]");
+				chartPanel.setChart(createChart(createDataset(count)));
 			}
+			
 			
 		}
 	}
