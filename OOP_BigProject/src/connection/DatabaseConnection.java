@@ -667,6 +667,39 @@ public class DatabaseConnection
         return count;
     }
 
+    public List<String[]> countFeePerDayBetween(String from, String to)
+    {
+    	List<String[]> count = new ArrayList<>();
+        try 
+        {
+            String query = "SELECT DATE(table1.sendDate) AS day , SUM(fee) as totalPerDay "
+            + "FROM "
+            + "(SELECT * FROM `transport` "
+            + "WHERE transport.sendDate > \"" + from + "\" && transport.sendDate < \"" + to + "\") AS table1 "
+            + "GROUP BY DATE(day);";
+            Statement stm = connection.createStatement();
+            ResultSet resultSet = stm.executeQuery(query);
+            String[] s;
+
+            while (resultSet.next())
+            {
+                s = new String[2];
+                s[0] = resultSet.getString("day");
+                s[1] = resultSet.getString("totalPerDay");
+                count.add(s);
+            }
+
+            stm.close();
+            resultSet.close();
+        } 
+        catch (Exception e) 
+        {
+            // TODO: handle exception
+        }
+
+        return count;
+    }
+
     public List<PriceSetting> readFile()
 	{
 		try 
