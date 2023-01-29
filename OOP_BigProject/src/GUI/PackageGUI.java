@@ -13,6 +13,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import com.github.lgooddatepicker.components.DatePicker;
 
 import connection.DatabaseConnection;
@@ -21,9 +24,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class PackageGUI extends JPanel {
+public class PackageGUI extends JPanel implements ActionListener {
 	
 	private DatabaseConnection databaseConnection = new DatabaseConnection();
+	private JFreeChart barChart;
+	private ChartPanel chartPanel;
+	private DatePicker fromDatePicker;
+	private DatePicker toDatePicker;
+	private JButton confirmBtn;
 
 	/**
 	 * Create the panel.
@@ -31,15 +39,14 @@ public class PackageGUI extends JPanel {
 	public PackageGUI() {
 		setBackground(new Color(255, 255, 255));
 		
-		JFreeChart barChart = ChartFactory.createBarChart(
+		barChart = ChartFactory.createBarChart(
 		         "THỐNG KÊ ĐƠN HÀNG",
 		         "Ngày",
 		         "Tổng số đơn hàng",
 		         null,
 		         PlotOrientation.HORIZONTAL,
 		         false, false, false);
-		ChartPanel chartPanel = new ChartPanel(barChart);
-		chartPanel.setZoomInFactor(1.0);
+		chartPanel = new ChartPanel(barChart);
 		
 		JLabel fromDateLbl = new JLabel("Từ ngày");
 		fromDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -47,13 +54,14 @@ public class PackageGUI extends JPanel {
 		JLabel toDateLbl = new JLabel("Đến ngày");
 		toDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		DatePicker fromDatePicker = new DatePicker();
+		fromDatePicker = new DatePicker();
 		fromDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		DatePicker toDatePicker = new DatePicker();
+		toDatePicker = new DatePicker();
 		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton confirmBtn = new JButton("Xác nhận");
+		confirmBtn = new JButton("Xác nhận");
+		confirmBtn.addActionListener(this);
 		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -92,10 +100,17 @@ public class PackageGUI extends JPanel {
 		);
 		setLayout(groupLayout);
 	}
-	
-	private CategoryDataset createDataset() {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		
-		return dataset;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == confirmBtn) {
+			String fromDate, toDate;
+			fromDate = fromDatePicker.toString();
+			toDate = toDatePicker.toString();
+			if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+				System.out.println("Từ ngày [" + fromDate + "] đến ngày [" + toDate + "]");
+			}
+		}
 	}
 }

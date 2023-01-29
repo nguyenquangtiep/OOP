@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -17,23 +19,28 @@ import org.jfree.chart.plot.PlotOrientation;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
-public class RevenueGUI extends JPanel {
-
+public class RevenueGUI extends JPanel implements ActionListener {
+	
+	private JButton confirmBtn;
+	private DatePicker fromDatePicker;
+	private DatePicker toDatePicker;
+	private JFreeChart barChart;
+	private ChartPanel chartPanel;
+	
 	/**
 	 * Create the panel.
 	 */
 	public RevenueGUI() {
-setBackground(new Color(255, 255, 255));
+		setBackground(new Color(255, 255, 255));
 		
-		JFreeChart barChart = ChartFactory.createBarChart(
+		barChart = ChartFactory.createBarChart(
 		         "THỐNG KÊ DOANH THU",
 		         "Ngày",
 		         "Tổng doanh thu",
 		         null,
 		         PlotOrientation.VERTICAL,
 		         false, false, false);
-		ChartPanel chartPanel = new ChartPanel(barChart);
-		chartPanel.setZoomInFactor(1.0);
+		chartPanel = new ChartPanel(barChart);
 		
 		JLabel fromDateLbl = new JLabel("Từ ngày");
 		fromDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -41,14 +48,15 @@ setBackground(new Color(255, 255, 255));
 		JLabel toDateLbl = new JLabel("Đến ngày");
 		toDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		DatePicker fromDatePicker = new DatePicker();
+		fromDatePicker = new DatePicker();
 		fromDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		DatePicker toDatePicker = new DatePicker();
+		toDatePicker = new DatePicker();
 		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton confirmtBtn = new JButton("Xác nhận");
-		confirmtBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JButton confirmBtn = new JButton("Xác nhận");
+		confirmBtn.addActionListener(this);
+		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -66,7 +74,7 @@ setBackground(new Color(255, 255, 255));
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(toDatePicker, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
 					.addGap(125)
-					.addComponent(confirmtBtn, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addComponent(confirmBtn, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
 					.addGap(37))
 		);
 		groupLayout.setVerticalGroup(
@@ -74,7 +82,7 @@ setBackground(new Color(255, 255, 255));
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(21)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(confirmtBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addComponent(confirmBtn, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 						.addComponent(toDateLbl, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 						.addComponent(fromDatePicker, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 						.addComponent(fromDateLbl, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
@@ -84,6 +92,19 @@ setBackground(new Color(255, 255, 255));
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == confirmBtn) {
+			String fromDate, toDate;
+			fromDate = fromDatePicker.getDate().toString();
+			toDate = toDatePicker.getDate().toString();
+			if (fromDate != null && toDate != null) {
+				System.out.println("Từ ngày " + fromDate + " đến ngày " + toDate);
+			}
+		}
 	}
 
 }
