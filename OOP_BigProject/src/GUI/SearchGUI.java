@@ -71,10 +71,12 @@ public class SearchGUI extends JFrame implements ActionListener {
 		priceTF.setColumns(10);
 		
 		searchBtn = new JButton("Tìm kiếm");
+		searchBtn.setFocusable(false);
 		searchBtn.addActionListener(this);
 		searchBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		cancelBtn = new JButton("Hủy");
+		cancelBtn.setFocusable(false);
 		cancelBtn.addActionListener(this);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -233,7 +235,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 					setVisible(false);
 					frame.remove(frame.getPrePanel());
 					frame.setPrePanel(new HomeGUI(transports));
-					frame.add(frame.getPrePanel());
+					frame.getContentPane().add(frame.getPrePanel());
 					frame.revalidate();
 				}
 			}

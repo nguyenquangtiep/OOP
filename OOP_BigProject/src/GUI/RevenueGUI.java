@@ -55,6 +55,7 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JButton confirmBtn = new JButton("Xác nhận");
+		confirmBtn.setFocusable(false);
 		confirmBtn.addActionListener(this);
 		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout groupLayout = new GroupLayout(this);

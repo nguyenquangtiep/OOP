@@ -44,6 +44,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		
+		setTitle("HỆ THỐNG QUẢN LÝ ĐƠN HÀNG");
 		setMinimumSize(new Dimension(1000, 650));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 599);

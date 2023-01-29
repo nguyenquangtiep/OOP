@@ -86,10 +86,12 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 		airlineWeightTF.setColumns(10);
 		
 		saveBtn = new JButton("Lưu");
+		saveBtn.setFocusable(false);
 		saveBtn.addActionListener(this);
 		saveBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		cancelBtn = new JButton("Hủy");
+		cancelBtn.setFocusable(false);
 		cancelBtn.addActionListener(this);
 		cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

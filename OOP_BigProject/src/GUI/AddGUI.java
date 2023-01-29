@@ -483,7 +483,7 @@ public class AddGUI extends JFrame implements ActionListener {
 				setVisible(false);
 				frame.remove(frame.getPrePanel());
 				frame.setPrePanel(new HomeGUI());
-				frame.add(frame.getPrePanel());
+				frame.getContentPane().add(frame.getPrePanel());
 				frame.revalidate();
 			}
 		}
@@ -516,6 +516,7 @@ public class AddGUI extends JFrame implements ActionListener {
 
 	public void setSaveBtn(JButton saveBtn) {
 		this.saveBtn = saveBtn;
+		saveBtn.setFocusable(false);
 	}
 
 	public JTextField getSenderNameTF() {
@@ -628,6 +629,7 @@ public class AddGUI extends JFrame implements ActionListener {
 
 	public void setDeleteBtn(JButton deleteBtn) {
 		this.deleteBtn = deleteBtn;
+		deleteBtn.setFocusable(false);
 	}
 
 	public ButtonGroup getButtonGroup() {
@@ -640,6 +642,7 @@ public class AddGUI extends JFrame implements ActionListener {
 
 	public void setCancelBtn(JButton cancelBtn) {
 		this.cancelBtn = cancelBtn;
+		cancelBtn.setFocusable(false);
 	}
 
 	public MainFrame getFrame() {

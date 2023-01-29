@@ -65,6 +65,7 @@ public class PackageGUI extends JPanel implements ActionListener {
 		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		confirmBtn = new JButton("Xác nhận");
+		confirmBtn.setFocusable(false);
 		confirmBtn.addActionListener(this);
 		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -122,9 +123,7 @@ public class PackageGUI extends JPanel implements ActionListener {
 				
 				count = dataConnect.countTransportPerDayBetween(fromDate, toDate);
 				
-				for (int i = 0; i < count.size(); i++) {
-					System.out.println(count.get(i)[0] + " and " + count.get(i)[1]);
-				}
+				System.out.println("Size count: " + count.size());
 				
 				System.out.println("Từ ngày [" + fromDate + "] đến ngày [" + toDate + "]");
 			}
