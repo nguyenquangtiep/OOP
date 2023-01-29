@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
@@ -26,12 +29,13 @@ import java.awt.Color;
 
 public class PackageGUI extends JPanel implements ActionListener {
 	
-	private DatabaseConnection databaseConnection = new DatabaseConnection();
+	private DatabaseConnection dataConnect = new DatabaseConnection();
 	private JFreeChart barChart;
 	private ChartPanel chartPanel;
 	private DatePicker fromDatePicker;
 	private DatePicker toDatePicker;
 	private JButton confirmBtn;
+	private List<String[]> count;
 
 	/**
 	 * Create the panel.
@@ -109,8 +113,24 @@ public class PackageGUI extends JPanel implements ActionListener {
 			fromDate = fromDatePicker.toString();
 			toDate = toDatePicker.toString();
 			if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+				
+//				String[] s1 = fromDate.split("[- :]");
+//				fromDate = s1[2]+"-"+s1[1]+"-"+s1[0];
+//				
+//				String[] s2 = toDate.split("[- :]");
+//				toDate = s2[2]+"-"+s2[1]+"-"+s2[0];
+				
+				count = dataConnect.countTransportPerDayBetween(fromDate, toDate);
+				
+				for (int i = 0; i < count.size(); i++) {
+					System.out.println(count.get(i)[0] + " and " + count.get(i)[1]);
+				}
+				
 				System.out.println("Từ ngày [" + fromDate + "] đến ngày [" + toDate + "]");
 			}
+			
 		}
 	}
+	
+	
 }

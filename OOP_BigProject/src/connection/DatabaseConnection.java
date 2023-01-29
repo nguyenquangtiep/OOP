@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -635,7 +636,7 @@ public class DatabaseConnection
 
     public List<String[]> countTransportPerDayBetween(String from, String to)
     {
-        List<String[]> count = new ArrayList<>();
+    	List<String[]> count = new ArrayList<>();
         try 
         {
             String query = "SELECT DATE(table1.sendDate) AS day , COUNT(*) as totalPerDay "
