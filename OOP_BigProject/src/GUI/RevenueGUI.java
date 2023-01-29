@@ -101,7 +101,7 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		         "Ngày",
 		         "Tổng số chi phí",
 		         dataset,
-		         PlotOrientation.VERTICAL,
+		         PlotOrientation.HORIZONTAL,
 		         false, false, false);
 		
 		return bar;
