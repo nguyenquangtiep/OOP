@@ -134,8 +134,6 @@ public class PackageGUI extends JPanel implements ActionListener {
 				count = dataConnect.countTransportPerDayBetween(fromDate, toDate);
 				chartPanel.setChart(createChart(createDataset(count)));
 			}
-			
-			
 		}
 	}
 	

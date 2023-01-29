@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -16,16 +17,21 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.github.lgooddatepicker.components.DatePicker;
+
+import connection.DatabaseConnection;
 
 public class RevenueGUI extends JPanel implements ActionListener {
 	
 	private JButton confirmBtn;
 	private DatePicker fromDatePicker;
 	private DatePicker toDatePicker;
-	private JFreeChart barChart;
 	private ChartPanel chartPanel;
+	private List<String[]> count;
+	private DatabaseConnection dataConnect = new DatabaseConnection();
 	
 	/**
 	 * Create the panel.
@@ -33,14 +39,7 @@ public class RevenueGUI extends JPanel implements ActionListener {
 	public RevenueGUI() {
 		setBackground(new Color(255, 255, 255));
 		
-		barChart = ChartFactory.createBarChart(
-		         "THỐNG KÊ DOANH THU",
-		         "Ngày",
-		         "Tổng doanh thu",
-		         null,
-		         PlotOrientation.VERTICAL,
-		         false, false, false);
-		chartPanel = new ChartPanel(barChart);
+		chartPanel = new ChartPanel(createChart(null));;
 		
 		JLabel fromDateLbl = new JLabel("Từ ngày");
 		fromDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -54,7 +53,7 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		toDatePicker = new DatePicker();
 		toDatePicker.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton confirmBtn = new JButton("Xác nhận");
+		confirmBtn = new JButton("Xác nhận");
 		confirmBtn.setFocusable(false);
 		confirmBtn.addActionListener(this);
 		confirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -94,6 +93,31 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		);
 		setLayout(groupLayout);
 	}
+	
+	private JFreeChart createChart(CategoryDataset dataset) {
+		
+		JFreeChart bar = ChartFactory.createBarChart(
+		         "THỐNG KÊ CHI PHÍ",
+		         "Ngày",
+		         "Tổng số chi phí",
+		         dataset,
+		         PlotOrientation.VERTICAL,
+		         false, false, false);
+		
+		return bar;
+		
+	}
+	
+	private CategoryDataset createDataset(List<String[]> data) {
+		
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		for (int i = 0; i < data.size(); i++) {
+			dataset.addValue(Float.parseFloat(data.get(i)[1]), "hello", data.get(i)[0]);
+		}
+		
+		return dataset;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -102,8 +126,9 @@ public class RevenueGUI extends JPanel implements ActionListener {
 			String fromDate, toDate;
 			fromDate = fromDatePicker.getDate().toString();
 			toDate = toDatePicker.getDate().toString();
-			if (fromDate != null && toDate != null) {
-				System.out.println("Từ ngày " + fromDate + " đến ngày " + toDate);
+			if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+				count = dataConnect.countFeePerDayBetween(fromDate, toDate);
+				chartPanel.setChart(createChart(createDataset(count)));
 			}
 		}
 	}
