@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.util.List;
 
 import net.miginfocom.swing.MigLayout;
@@ -68,12 +69,12 @@ public class HomeGUI extends JPanel {
 			objects[i][3] = transport.getSender().getName();
 			objects[i][4] = transport.getReceiver().getName();
 			objects[i][5] = transport.getReceiver().getAddress().getLocation();
-			s = transport.getReceiveDateEstimation().split("[- :]");
+			s = transport.getSendDate().split("[- :]");
 			objects[i][6] = s[2]+"-"+s[1]+"-"+s[0];
 			objects[i][7] = s[3]+":"+s[4]+":"+s[5];
 			objects[i][8] = transport.getDistance();
 			objects[i][9] = transport.getTransportType();
-			objects[i++][10] = transport.getFee();
+			objects[i++][10] = new BigDecimal(transport.getFee());
 		}
 
 		return objects;

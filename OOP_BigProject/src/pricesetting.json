@@ -1,10 +1,10 @@
 [
   {
     "transportType": "road",
-    "priceSetting": "200|50"
+    "priceSetting": "20000|5000"
   },
   {
     "transportType": "air",
-    "priceSetting": "1000|1000|200000"
+    "priceSetting": "100000|100000|200000"
   }
 ]

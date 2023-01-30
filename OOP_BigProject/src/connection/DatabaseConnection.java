@@ -643,7 +643,8 @@ public class DatabaseConnection
             + "FROM "
             + "(SELECT * FROM `transport` "
             + "WHERE transport.sendDate > \"" + from + "\" && transport.sendDate < \"" + to + "\") AS table1 "
-            + "GROUP BY DATE(day);";
+            + "GROUP BY DATE(day)"
+            + "ORDER BY day;" ;
             Statement stm = connection.createStatement();
             ResultSet resultSet = stm.executeQuery(query);
             String[] s;
@@ -676,7 +677,8 @@ public class DatabaseConnection
             + "FROM "
             + "(SELECT * FROM `transport` "
             + "WHERE transport.sendDate > \"" + from + "\" && transport.sendDate < \"" + to + "\") AS table1 "
-            + "GROUP BY DATE(day);";
+            + "GROUP BY DATE(day)"
+            + "ORDER BY day;" ;
             Statement stm = connection.createStatement();
             ResultSet resultSet = stm.executeQuery(query);
             String[] s;

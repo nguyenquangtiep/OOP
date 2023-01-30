@@ -5,6 +5,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLightLaf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,6 +18,14 @@ import entities.PriceSetting;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		try {
+		    UIManager.setLookAndFeel( new FlatLightLaf() );
+		} catch( Exception ex ) {
+		    System.err.println( "Failed to initialize LaF" );
+		}
+
+		
 		DatabaseConnection databaseConnection = new DatabaseConnection();
 		enableDefaultSetting();		
 		databaseConnection.updatePrice();

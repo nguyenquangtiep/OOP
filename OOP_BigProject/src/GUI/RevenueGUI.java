@@ -114,6 +114,7 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		
 		for (int i = 0; i < data.size(); i++) {
 			dataset.addValue(Float.parseFloat(data.get(i)[1]), "hello", data.get(i)[0]);
+			System.out.println(data.get(i)[1] + "\t" + data.get(i)[0]);
 		}
 		
 		return dataset;
@@ -124,8 +125,8 @@ public class RevenueGUI extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == confirmBtn) {
 			String fromDate, toDate;
-			fromDate = fromDatePicker.getDate().toString();
-			toDate = toDatePicker.getDate().toString();
+			fromDate = fromDatePicker.toString();
+			toDate = toDatePicker.toString();
 			if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
 				count = dataConnect.countFeePerDayBetween(fromDate, toDate);
 				chartPanel.setChart(createChart(createDataset(count)));

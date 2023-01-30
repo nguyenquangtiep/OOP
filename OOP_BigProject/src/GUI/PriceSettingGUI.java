@@ -209,6 +209,8 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 				writeFile(priceSettings);
 				databaseConnection.updatePrice();
 			}
+			
+			setVisible(false);
 		}
 		
 		if (e.getSource() == cancelBtn) {

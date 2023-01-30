@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.util.List;
 
 import net.miginfocom.swing.MigLayout;
@@ -62,7 +63,7 @@ public class ReceiverGUI extends JPanel {
 						total+=transport.getFee();
 					}
 				}
-			objects[i++][5]=total;
+			objects[i++][5] = new BigDecimal(total);
 			total=0;
 		}
 

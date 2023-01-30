@@ -239,10 +239,6 @@ public class SearchGUI extends JFrame implements ActionListener {
 					frame.revalidate();
 				}
 			}
-			
-			for (Transport transport: transports) {
-				System.out.println(transport);
-			}
 		}
 		
 		if (e.getSource() == cancelBtn) {
