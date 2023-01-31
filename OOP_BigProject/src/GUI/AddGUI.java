@@ -29,8 +29,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
+
+// Add function
 public class AddGUI extends JFrame implements ActionListener {
 
+	// declare variables
 	private JPanel contentPane;
 	private JTextField senderNameTF;
 	private JTextField senderPhoneTF;
@@ -397,9 +400,13 @@ public class AddGUI extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		// save data
 		if (e.getSource() == getSaveBtn()) {
 			String senderName, senderPhone, senderAddress, receiverName, receiverPhone, receiverAddress,
 			packageName, packageWeight, distance, transportType = null, receiveTime, receiveDate, sendDate, sendTime;
+			
+			// get data from frame
 			senderName = getSenderNameTF().getText();
 			senderPhone = getSenderPhoneTF().getText();
 			senderAddress = getSenderAddressTF().getText();
@@ -420,11 +427,13 @@ public class AddGUI extends JFrame implements ActionListener {
 			sendDate = getSendDTP().getDatePicker().toString();
 			sendTime = getSendDTP().getTimePicker().toString();
 			
+			// check input must be a number
 			Pattern pattern = Pattern.compile("\\d*");
 	        Matcher matcher1, matcher2;
 	        matcher1 = pattern.matcher(packageWeight);
 	        matcher2 = pattern.matcher(distance);
 			
+	        // if inputs does not have any data
 			if (senderName.isEmpty() || senderName.isBlank()) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên người gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
@@ -481,6 +490,8 @@ public class AddGUI extends JFrame implements ActionListener {
 						sendDate+" "+sendTime+":00", "On Going", Float.parseFloat(distance), packageTransport);
 				dataConnect.addTransport(sender, receiver, packageTransport, transport);
 				setVisible(false);
+				
+				// reload frame
 				frame.remove(frame.getPrePanel());
 				frame.setPrePanel(new HomeGUI());
 				frame.getContentPane().add(frame.getPrePanel());
@@ -488,6 +499,8 @@ public class AddGUI extends JFrame implements ActionListener {
 			}
 		}
 		
+		
+		// clear data in frame
 		if (e.getSource() == getDeleteBtn()) {
 			getSenderNameTF().setText(null);
 			getSenderPhoneTF().setText(null);
@@ -505,11 +518,15 @@ public class AddGUI extends JFrame implements ActionListener {
 			getButtonGroup().clearSelection();
 		}
 		
+		
+		// cancel
 		if (e.getSource() == getCancelBtn()) {
 			setVisible(false);
 		}
 	}
 
+	
+	// getter and setter methods
 	public JButton getSaveBtn() {
 		return saveBtn;
 	}

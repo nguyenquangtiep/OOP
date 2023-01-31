@@ -12,6 +12,7 @@ public class Transport
     private float distance;
     private Package packageTransport;
     
+    // Aggregation
     public Transport(Sender sender, Receiver receiver, float fee, String transportType, 
     String sendDate, String receiveDateEstimation, String status, float distance, 
     Package packageTransport) 

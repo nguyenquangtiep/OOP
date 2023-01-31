@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -31,6 +30,7 @@ public class DatabaseConnection
     {
         try
         {
+        	// connect to database
             connection = DriverManager.getConnection(url, "root", "");
         }
         catch(Exception e)
@@ -39,6 +39,7 @@ public class DatabaseConnection
         }
     }
 
+    // get data from database
     public Object[][] testSelect()
     {
         Object[][] objects = new Object[1][3];
@@ -137,6 +138,7 @@ public class DatabaseConnection
         return objects;
     }
 	
+    // reset price
     public void updatePrice()
     {
         try 
@@ -182,6 +184,7 @@ public class DatabaseConnection
         }
     }
 
+    // add data into database
     public void addTransport(Sender sender, Receiver receiver, Package packageTransport, Transport transport)
     {
         try 
@@ -321,7 +324,7 @@ public class DatabaseConnection
         }
     }
 
-    // Xóa đơn hàng bằng id
+    // delete by id
     public void deleteById(int id)
     {
         String query = "DELETE FROM transport WHERE package = " + id + ";";
@@ -338,7 +341,7 @@ public class DatabaseConnection
         }
     }
 
-    // Kiểm tra đơn hàng có tồn tại bằng id
+    // check if id is exists
     @SuppressWarnings("unchecked")
     public boolean checkById(int id)
     {
@@ -355,7 +358,7 @@ public class DatabaseConnection
         return false;
     }
 
-    // Lấy đơn hàng bằng id
+    // get data by id
     @SuppressWarnings("unchecked")
     public Transport getById(int id)
     {
@@ -371,6 +374,7 @@ public class DatabaseConnection
         return transport;
     }
 
+    // update data
     public void updateTransport(Sender sender, Receiver receiver, Package packageTransport, Transport transport)
     {
         try 
@@ -500,6 +504,7 @@ public class DatabaseConnection
         }
     }
 
+    // find data by name customer
     @SuppressWarnings("unchecked")
     public List<Transport> findByName(String name)
     {
@@ -514,6 +519,7 @@ public class DatabaseConnection
         return transports;
     }
 
+    // find data by address
     @SuppressWarnings("unchecked")
     public List<Transport> findByAddress(String address)
     {
@@ -528,6 +534,7 @@ public class DatabaseConnection
         return transports;
     }
 
+    // find data by fee
     @SuppressWarnings("unchecked")
     public List<Transport> findByFeeGreaterThan(Float fee)
     {
@@ -542,10 +549,13 @@ public class DatabaseConnection
         return transports;
     }
 
+    
+    // overloading method findByTwoConditions
+    // method find by name and address
     @SuppressWarnings("unchecked")
-    public List<Transport> findByNameAndAddress(String name, String address)
+    public List<Transport> findByTwoConditions(String name, String address)
     {
-        List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
+        List<Transport> listTemp = (List<Transport>)testSelect()[0][0]; // downcasting
         List<Transport> transportsByName = new ArrayList<>();
         List<Transport> transportsFinal = new ArrayList<>();
         for (Transport transport : listTemp)
@@ -562,9 +572,12 @@ public class DatabaseConnection
 
         return transportsFinal;
     }
-
+    
+    
+    // overloading method findByTwoConditions
+    // method find by fee and address
     @SuppressWarnings("unchecked")
-    public List<Transport> findByAddressAndFeeGreaterThan(String address, Float fee)
+    public List<Transport> findByTwoConditions(Float fee, String address)
     {
         List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
         List<Transport> transportsByAddress = new ArrayList<>();
@@ -584,9 +597,12 @@ public class DatabaseConnection
 
         return transportsFinal;
     }
+    
 
+    // overloading method findByTwoConditions
+    // method find by name and fee
     @SuppressWarnings("unchecked")
-    public List<Transport> findByNameAndFeeGreaterThan(String name, Float fee)
+    public List<Transport> findByTwoConditions(String name, Float fee)
     {
         List<Transport> listTemp = (List<Transport>)testSelect()[0][0];
         List<Transport> transportsByName = new ArrayList<>();
@@ -606,6 +622,7 @@ public class DatabaseConnection
         return transportsFinal;
     }
 
+    // find data by name, address and fee
     @SuppressWarnings("unchecked")
     public List<Transport> findByNameAndAddressAndFeeGreaterThan(String name, String address, Float fee)
     {
@@ -634,6 +651,7 @@ public class DatabaseConnection
         return transportsFinal;
     }
 
+    // count transport per day from database
     public List<String[]> countTransportPerDayBetween(String from, String to)
     {
     	List<String[]> count = new ArrayList<>();
@@ -668,6 +686,7 @@ public class DatabaseConnection
         return count;
     }
 
+    // count fee per day from database
     public List<String[]> countFeePerDayBetween(String from, String to)
     {
     	List<String[]> count = new ArrayList<>();
@@ -702,6 +721,7 @@ public class DatabaseConnection
         return count;
     }
 
+    // read file json
     public List<PriceSetting> readFile()
 	{
 		try 

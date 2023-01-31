@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 
 public class PriceSettingGUI extends JFrame implements ActionListener {
 
+	// declare variables
 	private DatabaseConnection databaseConnection = new DatabaseConnection();
 	private JPanel contentPane;
 	private JTextField roadDistanceTF;
@@ -167,6 +168,8 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		
+		// save the changed price settings
 		if (e.getSource() == saveBtn) 
 		{
 			String s[] = new String[4];
@@ -175,7 +178,7 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 			s[2] = airlineDistanceTF.getText();
 			s[3] = airlineWeightTF.getText();
 			
-			// Nếu một trong các ô chứa kí tự không phải chữ số --> return true
+			// If one of the cells contains a character other than a digit --> return true
 			boolean containCharacterThatIsNotNumber = false;
 			for (String sTemp : s)
 			{
@@ -186,7 +189,7 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 				}
 			}
 
-			// Nếu các ô chỉ chứa chữ số hoặc không có gì --> tiếp tục kiểm tra null
+			// If the cells contain only numbers or nothing --> keep checking null
 			if (!containCharacterThatIsNotNumber)
 			{
 				List<PriceSetting> priceSettings = readFile();
@@ -213,11 +216,13 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 			setVisible(false);
 		}
 		
+		// close this frame
 		if (e.getSource() == cancelBtn) {
 			PriceSettingGUI.this.dispose();
 		}
 	}
 
+	// method check if s is null
 	public boolean isNull(String s)
 	{
 		if (s.length() == 0)
@@ -227,6 +232,7 @@ public class PriceSettingGUI extends JFrame implements ActionListener {
 		return false;
 	}
 
+	// method check if s contains character that is not a number
 	public boolean containCharacterThatIsNotNumber(String s)
 	{
 		char[] sAlphabet = s.toLowerCase().toCharArray();

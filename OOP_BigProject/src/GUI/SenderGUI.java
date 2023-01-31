@@ -13,6 +13,8 @@ import connection.DatabaseConnection;
 import entities.Sender;
 
 public class SenderGUI extends JPanel {
+	
+	// declare variables
 	private JTable table;
 	private DatabaseConnection databaseConnection = new DatabaseConnection();
 
@@ -37,6 +39,7 @@ public class SenderGUI extends JPanel {
 
 	}
 
+	// get data from database
 	@SuppressWarnings("unchecked")
 	public Object[][] testData()
 	{

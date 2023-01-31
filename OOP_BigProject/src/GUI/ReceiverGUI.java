@@ -15,6 +15,8 @@ import entities.Receiver;
 import entities.Transport;
 
 public class ReceiverGUI extends JPanel {
+	
+	// declare variables
 	private JTable table;
 	private DatabaseConnection databaseConnection = new DatabaseConnection();
 
@@ -38,6 +40,7 @@ public class ReceiverGUI extends JPanel {
 		scrollPane.setViewportView(table);
 	}
 
+	// get data from database
 	@SuppressWarnings("unchecked")
 	public Object[][] testData()
 	{

@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class SearchGUI extends JFrame implements ActionListener {
 
+	// declare variables
 	private JPanel contentPane;
 	private JTextField customerTF;
 	private JTextField addressTF;
@@ -131,9 +132,10 @@ public class SearchGUI extends JFrame implements ActionListener {
 	}
 	
 	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		// search data and display
 		if (e.getSource() == searchBtn) {
 			String customer, address, price;
 			
@@ -141,6 +143,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 			address = addressTF.getText();
 			price = priceTF.getText();
 			
+			// conditions
 			boolean condition1, condition2, condition3;
 			condition1 = (customer.isBlank() || customer.isEmpty());
 			condition2 = (address.isBlank() || address.isEmpty());
@@ -149,12 +152,13 @@ public class SearchGUI extends JFrame implements ActionListener {
 			float fee = 0;
 			Matcher matcher = null;
 			
+			// check if price is not a number
 			if (!condition3) {
 				Pattern pattern = Pattern.compile("\\d*");
 				matcher = pattern.matcher(price);
 			}
 			
-			
+			// check conditions
 			if (condition1 && condition2 && condition3) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập một điều kiện để tìm kiếm !", null, JOptionPane.PLAIN_MESSAGE);
 			}
@@ -188,7 +192,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 				
 				if (matcher.matches()) {
 			    	fee = Float.parseFloat(price);
-			    	transports = dataConnect.findByAddressAndFeeGreaterThan(address, fee);
+			    	transports = dataConnect.findByTwoConditions(fee, address);
 					if (transports.isEmpty()) {
 						JOptionPane.showMessageDialog(this, "Không tìm thấy đơn hàng theo yêu cầu !", null, JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -201,7 +205,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 				
 				if (matcher.matches()) {
 			    	fee = Float.parseFloat(price);
-			    	transports = dataConnect.findByNameAndFeeGreaterThan(customer, fee);
+			    	transports = dataConnect.findByTwoConditions(customer, fee);
 					if (transports.isEmpty()) {
 						JOptionPane.showMessageDialog(this, "Không tìm thấy đơn hàng theo yêu cầu !", null, JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -212,7 +216,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 			}
 			else if (condition3) {
 				
-				transports = dataConnect.findByNameAndAddress(customer, address);
+				transports = dataConnect.findByTwoConditions(customer, address);
 				if (transports.isEmpty()) {
 					JOptionPane.showMessageDialog(this, "Không tìm thấy đơn hàng theo yêu cầu !", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -230,6 +234,8 @@ public class SearchGUI extends JFrame implements ActionListener {
 			        JOptionPane.showMessageDialog(this, "Chi phí phải là kiểu số !", null, JOptionPane.ERROR_MESSAGE);
 			    }
 			}
+			
+			// if conditions are satisfied -> display data
 			if (transports != null) {
 				if (!transports.isEmpty()) {
 					setVisible(false);
@@ -241,6 +247,7 @@ public class SearchGUI extends JFrame implements ActionListener {
 			}
 		}
 		
+		// close the frame
 		if (e.getSource() == cancelBtn) {
 			setVisible(false);
 		}

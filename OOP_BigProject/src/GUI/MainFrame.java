@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
 public class MainFrame extends JFrame implements ActionListener {
+	
+	// declare variables
 	private JMenuItem homeItem;
 	private JMenuItem setPriceItem;
 	private JMenuItem searchItem;
@@ -136,6 +138,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		// show package list
 		if (e.getSource() == homeItem) {
 			remove(prePanel);
 			prePanel = new HomeGUI();
@@ -143,6 +147,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			revalidate();
 		}
 		
+		// show price setting frame
 		if (e.getSource() == setPriceItem) {
 			if (priceFrame == null || priceFrame.isVisible() == false) {
 				priceFrame = new PriceSettingGUI();
@@ -150,6 +155,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			priceFrame.setVisible(true);
 		}
 		
+		// show search frame
 		if (e.getSource() == searchItem) {
 			if (searchFrame == null || searchFrame.isVisible() == false) {
 				searchFrame = new SearchGUI(this);
@@ -157,6 +163,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			searchFrame.setVisible(true);
 		}
 		
+		// show add frame
 		if (e.getSource() == addItem) {
 			if (addFrame == null || addFrame.isVisible() == false) {
 				addFrame = new AddGUI(this);
@@ -164,15 +171,23 @@ public class MainFrame extends JFrame implements ActionListener {
 			addFrame.setVisible(true);
 		}
 		
+		// show update frame
 		if (e.getSource() == updateItem) {
 			String input = JOptionPane.showInputDialog(this, "Nhập mã đơn hàng cần sửa", null, JOptionPane.QUESTION_MESSAGE);
+			
+			// check if there is nothing data input
 			if (input != null && !input.isEmpty()) {
+				
+				// check input must be a number
 				Pattern pattern = Pattern.compile("\\d*");
 		        Matcher matcher = pattern.matcher(input);
 		        if (matcher.matches()) {
 		        	int id = Integer.parseInt(input);
+		        	
+		        	// check if database contain id
 		        	if (dataConnect.checkById(id)) {
 		        		
+		        		// showing update frame
 		        		remove(prePanel);
 		        		prePanel = new HomeGUI();
 		        		add(prePanel);
@@ -192,14 +207,23 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		}
 		
+		// delete function
 		if (e.getSource() == deleteItem) {
 			String input = JOptionPane.showInputDialog(this, "Nhập mã đơn hàng muốn xóa", null, JOptionPane.QUESTION_MESSAGE);
+			
+			// check if there is nothing data input
 			if (input != null && !input.isEmpty()) {
+				
+				// check input must be a number
 				Pattern pattern = Pattern.compile("\\d*");
 		        Matcher matcher = pattern.matcher(input);
 		        if (matcher.matches()) {
 		        	int id = Integer.parseInt(input);
+		        	
+		        	// check if database contain id
 		        	if (dataConnect.checkById(id)) {
+		        		
+		        		// delete package from database and reload frame
 		        		dataConnect.deleteById(id);
 		        		JOptionPane.showMessageDialog(this, "Đơn hàng mã " + input + " đã bị xóa !", null, JOptionPane.INFORMATION_MESSAGE);
 		        		remove(prePanel);
@@ -217,6 +241,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		}
 		
+		// show sender
 		if (e.getSource() == senderItem) {
 			remove(prePanel);
 			prePanel = new SenderGUI();
@@ -224,6 +249,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			revalidate();
 		}
 		
+		// show receiver
 		if (e.getSource() == receiverItem) {
 			remove(prePanel);
 			prePanel = new ReceiverGUI();
@@ -231,6 +257,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			revalidate();
 		}
 		
+		// show order statistics
 		if (e.getSource() == packageItem) {
 			remove(prePanel);
 			prePanel = new PackageGUI();
@@ -238,6 +265,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			revalidate();
 		}
 		
+		// show revenue statistics 
 		if (e.getSource() == revenueItem) {
 			remove(prePanel);
 			prePanel = new RevenueGUI();

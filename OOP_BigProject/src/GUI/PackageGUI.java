@@ -29,6 +29,7 @@ import java.awt.Color;
 
 public class PackageGUI extends JPanel implements ActionListener {
 	
+	// declare variables
 	private DatabaseConnection dataConnect = new DatabaseConnection();
 	private ChartPanel chartPanel;
 	private DatePicker fromDatePicker;
@@ -98,6 +99,7 @@ public class PackageGUI extends JPanel implements ActionListener {
 		setLayout(groupLayout);
 	}
 	
+	// method create bar chart
 	private JFreeChart createChart(CategoryDataset dataset) {
 		
 		JFreeChart bar = ChartFactory.createBarChart(
@@ -112,6 +114,7 @@ public class PackageGUI extends JPanel implements ActionListener {
 		
 	}
 	
+	// method create category data set 
 	private CategoryDataset createDataset(List<String[]> data) {
 		
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -125,7 +128,8 @@ public class PackageGUI extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		// confirm to display statistical data
 		if (e.getSource() == confirmBtn) {
 			String fromDate, toDate;
 			fromDate = fromDatePicker.toString();

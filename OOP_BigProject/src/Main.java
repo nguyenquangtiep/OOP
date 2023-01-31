@@ -19,6 +19,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		// Nang cap giao dien
 		try {
 		    UIManager.setLookAndFeel( new FlatLightLaf() );
 		} catch( Exception ex ) {
@@ -30,6 +31,7 @@ public class Main {
 		enableDefaultSetting();		
 		databaseConnection.updatePrice();
 
+		// run
 		EventQueue.invokeLater(new Runnable() {
 
 			@Override

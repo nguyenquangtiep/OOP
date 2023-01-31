@@ -13,12 +13,18 @@ import javax.swing.table.DefaultTableModel;
 import connection.DatabaseConnection;
 import entities.Transport;
 
+// Package list function
 public class HomeGUI extends JPanel {
+	
+	// declare variables
 	private JTable table;
 	private DatabaseConnection databaseConnection = new DatabaseConnection();
+	
 	/**
 	 * Create the panel.
 	 */
+	// Package list default
+	@SuppressWarnings("unchecked")
 	public HomeGUI() {
 		
 		setBackground(new Color(255, 255, 255));
@@ -37,6 +43,7 @@ public class HomeGUI extends JPanel {
 		scrollPane.setViewportView(table);
 	}
 	
+	// Package list with a random transports list
 	public HomeGUI(List<Transport> transports) {
 		
 		setBackground(new Color(255, 255, 255));
@@ -55,7 +62,7 @@ public class HomeGUI extends JPanel {
 		scrollPane.setViewportView(table);
 	}
 
-	@SuppressWarnings("unchecked")
+	// get data from a transports list
 	public Object[][] dataTest(List<Transport> transports)
 	{
 		int i = 0;

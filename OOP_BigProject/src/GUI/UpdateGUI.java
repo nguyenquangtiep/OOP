@@ -17,12 +17,12 @@ import entities.Receiver;
 import entities.Sender;
 import entities.Transport;
 
+
+// Update function
 public class UpdateGUI extends AddGUI {
 
-	private static MainFrame frame;
-	private JPanel contentPane;
+	// declare variables
 	private int id;
-	
 	DatabaseConnection dataConnect = new DatabaseConnection();
 	Transport transport;
 	Sender sender;
@@ -33,14 +33,17 @@ public class UpdateGUI extends AddGUI {
 	 * Create the frame.
 	 */
 	public UpdateGUI(int id, MainFrame frame) {
-		super(frame);
+		super(frame); // inheritance
 		this.id = id;
 		setTitle("Sửa đơn hàng");
 		showInfo();
 	}
 	
+	
+	// method showing information from database
 	public void showInfo() {
 		
+		// get data
 		transport = dataConnect.getById(id);
 		sender = transport.getSender();
 		receiver = transport.getReceiver();
@@ -68,6 +71,7 @@ public class UpdateGUI extends AddGUI {
 			getAirlineRdbtn().setSelected(true);
 		}
 		
+		// format the date and time in the form "dd/MM/yyyy" and "hh:mm"
 		String[] send = transport.getReceiveDateEstimation().split("[- :]");
 		String[] receive = transport.getSendDate().split("[- :]");
 		
@@ -77,19 +81,26 @@ public class UpdateGUI extends AddGUI {
 		String receiveDate = receive[0]+"-"+receive[1]+"-"+receive[2];
 		String receiveTime = receive[3]+":"+receive[4];
 		
+		// convert the formatted date to LocalDate and LocalTime
 		getReceiveDTP().getDatePicker().setDate(LocalDate.parse(receiveDate));
 		getReceiveDTP().getTimePicker().setTime(LocalTime.parse(receiveTime));
 		getSendDTP().getDatePicker().setDate(LocalDate.parse(sendDate));
 		getSendDTP().getTimePicker().setTime(LocalTime.parse(sendTime));
 	}
 
+	
+	// override the same method from super class
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		// save data after update
 		if (e.getSource() == getSaveBtn()) {
 			
+			// declare variables
 			String senderName, senderPhone, senderAddress, receiverName, receiverPhone, receiverAddress,
 			packageName, packageWeight, distance, transportType = null, receiveTime, receiveDate, sendDate, sendTime;
+			
+			// get data in the frame
 			senderName = getSenderNameTF().getText();
 			senderPhone = getSenderPhoneTF().getText();
 			senderAddress = getSenderAddressTF().getText();
@@ -110,11 +121,7 @@ public class UpdateGUI extends AddGUI {
 			sendDate = getSendDTP().getDatePicker().toString();
 			sendTime = getSendDTP().getTimePicker().toString();
 			
-			Pattern pattern = Pattern.compile("\\d*");
-	        Matcher matcher1, matcher2;
-	        matcher1 = pattern.matcher(packageWeight);
-	        matcher2 = pattern.matcher(distance);
-	        
+			// check the input must be a number
 	        boolean weightFlag = false, distanceFlag = false;
 	        float distanceF = 0, weightF = 0;
 	        
@@ -132,6 +139,7 @@ public class UpdateGUI extends AddGUI {
 	        	distanceFlag = true;
 	        }
 			
+	        // handle exception
 			if (senderName.isEmpty() || senderName.isBlank()) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên người gửi !", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
@@ -187,6 +195,8 @@ public class UpdateGUI extends AddGUI {
 				packageTransport = new Package(id, packageName, weightF);
 				transport = new Transport(sender, receiver, 0, transportType, receiveDate+" "+receiveTime+":00",
 						sendDate+" "+sendTime+":00", "On Going", distanceF, packageTransport);
+				
+				// update data and reload frame
 				dataConnect.updateTransport(sender, receiver, packageTransport, transport);
 				setVisible(false);
 				getFrame().remove(getFrame().getPrePanel());
@@ -196,6 +206,7 @@ public class UpdateGUI extends AddGUI {
 			}
 		}
 		
+		// clear all data in frame
 		if (e.getSource() == getDeleteBtn()) {
 			getSenderNameTF().setText(null);
 			getSenderPhoneTF().setText(null);
@@ -213,6 +224,7 @@ public class UpdateGUI extends AddGUI {
 			getButtonGroup().clearSelection();
 		}
 		
+		// close the update frame
 		if (e.getSource() == getCancelBtn()) {
 			setVisible(false);
 		}
